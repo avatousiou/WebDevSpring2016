@@ -1,3 +1,15 @@
 .control-label.text-left {
     text-align: left;
 }
+
+hr {
+    border-top: 1px solid #555;
+}
+
+body .glyphicon-large {
+    font-size: 30px;
+}
+
+.glyphicon-large {
+    line-height: 2;
+}
