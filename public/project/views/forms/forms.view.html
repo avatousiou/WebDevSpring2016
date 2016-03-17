@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="../../assets/stylesheets/dashboard.css" rel="stylesheet">
+    <link href="../../assets/stylesheets/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="./home.html">Form Maker</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="./register.html">Register</a></li>
+                <li><a href="./login.html">Login</a></li>
+                <li><a href="./profile.html">Username</a></li>
+                <li><a href="./home.html">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 col-md-1 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><a href="./home.html">Home</a></li>
+                <li><a href="./profile.html">Profile</a></li>
+                <li><a href="./admin.html">Admin</a></li>
+                <li class="active"><a href="./forms.html">Forms <span class="sr-only">(current)</span></a></li>
+            </ul>
+        </div>
+        <div class="col-sm-10 col-sm-offset-2 col-md-11 col-md-offset-1 main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <span class="glyphicon glyphicon-large glyphicon-user"></span>
+                    </div>
+                    <div class="col-sm-6 col-md-9">
+                        <p>Username: Ash Ketchum</p>
+                        <p>Email: ketchumall@gmail.com</p>
+                        <p>3DS Friend Code: 0000-0000-0000</p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <ul class="nav nav-tabs">
+                        <li role="presentation" class="active"><a href="./forms.html">My Team</a></li>
+                        <li role="presentation"><a href="./form-fields.html">Badges</a></li>
+                    </ul>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th><a href="#"><span class="glyphicon glyphicon-triangle-bottom"></span></a> Pokemon</th>
+                                    <th>Moveset</th>
+                                    <th>Item</th>
+                                    <th>Ability</th>
+                                    <th>Nature</th>
+                                    <th>EVs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <a href="#"><span class="glyphicon glyphicon-large glyphicon-plus"></span>
+                                        <span class="glyphicon glyphicon-large glyphicon-remove"></span></a>
+                                    </td>
+                                    <td><input type="text" class="form-control" placeholder="name"></td>
+                                    <td><textarea class="form-control" placeholder="moves" rows="4"></textarea></td>
+                                    <td><input type="text" class="form-control" placeholder="item"></td>
+                                    <td><input type="text" class="form-control" placeholder="ability"></td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option>Adamant</option>
+                                            <option>Bold</option>
+                                            <option>Brave</option>
+                                            <option>Calm</option>
+                                            <option>Careful</option>
+                                            <option>Gentle</option>
+                                            <option>Hasty</option>
+                                            <option>Impish</option>
+                                            <option>Jolly</option>
+                                            <option>Lax</option>
+                                            <option>Lonely</option>
+                                            <option>Mild</option>
+                                            <option>Modest</option>
+                                            <option>Naive</option>
+                                            <option>Naughty</option>
+                                            <option>Quiet</option>
+                                            <option>Rash</option>
+                                            <option>Relaxed</option>
+                                            <option>Sassy</option>
+                                            <option>Timid</option>
+                                        </select>
+                                    </td>
+                                    <td><textarea class="form-control" placeholder="EVs" rows="6"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#"><span class="glyphicon glyphicon-large glyphicon-pencil"></span>
+                                        <span class="glyphicon glyphicon-large glyphicon-remove"></span></a>
+                                    </td>
+                                    <td>Quagsire</td>
+                                    <td>
+                                        <ol>
+                                            <li>Recover</li>
+                                            <li>Toxic</li>
+                                            <li>Scald</li>
+                                            <li>Earthquake</li>
+                                        </ol>
+                                    </td>
+                                    <td>Leftovers</td>
+                                    <td>Unaware</td>
+                                    <td>Relaxed</td>
+                                    <td>
+                                        <ul>
+                                            <li>HP: 252</li>
+                                            <li>Attack: 0</li>
+                                            <li>Defense: 252</li>
+                                            <li>Special Attack: 0</li>
+                                            <li>Special Defense: 4</li>
+                                            <li>Speed: 0</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#"><span class="glyphicon glyphicon-large glyphicon-pencil"></span>
+                                        <span class="glyphicon glyphicon-large glyphicon-remove"></span></a>
+                                    </td>
+                                    <td>Ferrothorn</td>
+                                    <td>
+                                        <ol>
+                                            <li>Leech Seed</li>
+                                            <li>Protect</li>
+                                            <li>Stealth Rock</li>
+                                            <li>Gyro Ball</li>
+                                        </ol>
+                                    </td>
+                                    <td>Leftovers</td>
+                                    <td>Iron Barbs</td>
+                                    <td>Relaxed</td>
+                                    <td>
+                                        <ul>
+                                            <li>HP: 252</li>
+                                            <li>Attack: 0</li>
+                                            <li>Defense: 88</li>
+                                            <li>Special Attack: 0</li>
+                                            <li>Special Defense: 168</li>
+                                            <li>Speed: 0</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#"><span class="glyphicon glyphicon-large glyphicon-pencil"></span>
+                                        <span class="glyphicon glyphicon-large glyphicon-remove"></span></a>
+                                    </td>
+                                    <td>Venusaur</td>
+                                    <td>
+                                        <ol>
+                                            <li>Giga Drain</li>
+                                            <li>Sludge Bomb</li>
+                                            <li>Synthesis</li>
+                                            <li>Knock Off</li>
+                                        </ol>
+                                    </td>
+                                    <td>Venusaurite</td>
+                                    <td>Chlorophyll</td>
+                                    <td>Bold</td>
+                                    <td>
+                                        <ul>
+                                            <li>HP: 248</li>
+                                            <li>Attack: 0</li>
+                                            <li>Defense: 96</li>
+                                            <li>Special Attack: 0</li>
+                                            <li>Special Defense: 144</li>
+                                            <li>Speed: 20</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+<script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.1.1/js/tether.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
