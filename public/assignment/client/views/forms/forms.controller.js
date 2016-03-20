@@ -6,6 +6,11 @@
     function FormController($scope, $rootScope, FormService, $location){
         $rootScope.state = "forms";
 
+        if(!$rootScope.user){
+            $location.path("/login");
+            return;
+        }
+
         $scope.forms = [];
 
         FormService
@@ -24,6 +29,7 @@
                         .findAllFormsForUser($rootScope.user._id)
                         .then(function(response){
                             $scope.forms = response.data;
+                            $scope.form = {};
                         });
                 });
         };
@@ -36,11 +42,12 @@
                         .findAllFormsForUser($rootScope.user._id)
                         .then(function(response){
                             $scope.forms = response.data;
+                            $scope.form = {};
                         });
                 });
         };
 
-        $scope.deleteForm = function(){
+        $scope.deleteForm = function(form){
             FormService
                 .deleteFormById(form._id)
                 .then(function(){
@@ -53,7 +60,7 @@
         };
 
         $scope.selectForm = function(form){
-            $location.path("/form-fields/" + form._id);
+            $scope.form = form;
         }
 
     }

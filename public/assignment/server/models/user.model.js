@@ -1,4 +1,4 @@
-module.exports = function(db){
+module.exports = function(){
 
     var users = require("./user.mock.json");
 
@@ -16,17 +16,19 @@ module.exports = function(db){
     function findUserByCredentials(username, password){
         for(var u in users){
             if((username == users[u].username) || (password == users[u].password)){
-                return users[i];
+                return users[u];
             }
         }
+        return null;
     }
 
     function findUserById(id){
         for(var u in users){
             if(id == users[u]._id){
-                return users[i];
+                return users[u];
             }
         }
+        return null;
     }
 
     function findAll(){
@@ -41,10 +43,11 @@ module.exports = function(db){
     function updateUser(id, user){
         for(var u in users){
             if(id == users[u]._id){
-                users[i] = user;
+                users[u] = user;
                 return user;
             }
         }
+        return null;
     }
 
     function deleteUserById(id){
@@ -53,6 +56,7 @@ module.exports = function(db){
                 users.pop(users[u]);
             }
         }
+        return null;
     }
 
 };

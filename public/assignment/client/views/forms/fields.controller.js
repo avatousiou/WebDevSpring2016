@@ -3,7 +3,12 @@
         .module("FormBuilderApp")
         .controller("FieldsController", FieldsController);
 
-    function FieldsController($scope, FieldService, $routeParams){
+    function FieldsController($scope, $rootScope, FieldService, $routeParams, $location, $uibModal){
+
+        if(!$rootScope.user){
+            $location.path("/login");
+        }
+
         var formId = $routeParams.formId;
 
         FieldService
@@ -13,18 +18,6 @@
             });
 
         $scope.fieldType = "TEXT";
-
-        $scope.removeField = function(field){
-            FieldService
-                .deleteFieldFromForm(formId, field._id)
-                .then(function(){
-                    FieldService
-                        .getFieldsForForm(formId)
-                        .then(function(response){
-                            $scope.fields = response.data;
-                        });
-                });
-        }
 
         $scope.addField = function(){
             if($scope.fieldType == "TEXT"){
@@ -96,6 +89,46 @@
                             $scope.fields = response.data;
                         });
                 });
-        }
+        };
+
+        $scope.openEditModal = function(field){
+            var modalInstance = $uibModal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: "views/forms/modals/editFieldModal.view.html",
+                controller: "EditFieldModalController",
+                size: "lg",
+                resolve: {
+                    field: function(){
+                        return field;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function(updatedField){
+                FieldService
+                    .updateFieldForForm(formId, updatedField._id, updatedField)
+                    .then(function(){
+                        FieldService
+                            .getFieldsForForm(formId)
+                            .then(function(response){
+                                $scope.fields = response.data;
+                            });
+                    });
+            });
+        };
+
+        $scope.removeField = function(field){
+            FieldService
+                .deleteFieldFromForm(formId, field._id)
+                .then(function(){
+                    FieldService
+                        .getFieldsForForm(formId)
+                        .then(function(response){
+                            $scope.fields = response.data;
+                        });
+                });
+        };
+
+
     }
 })();

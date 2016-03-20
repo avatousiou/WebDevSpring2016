@@ -3,8 +3,13 @@
         .module("FormBuilderApp")
         .controller("ProfileController", ProfileController);
 
-    function ProfileController($scope, $rootScope, UserService){
+    function ProfileController($scope, $rootScope, UserService, $location){
         $rootScope.state = "profile";
+
+        if(!$rootScope.user){
+            $location.path("/login");
+            return;
+        }
 
         $scope.form = {
             firstName: $rootScope.user.firstName,

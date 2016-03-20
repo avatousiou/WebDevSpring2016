@@ -1,164 +1,76 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Forms : Registration Form</h1>
+            <h1 class="page-header">Forms : Form Fields</h1>
 
             <ul class="nav nav-tabs">
-                <li role="presentation"><a href="./forms.html">Forms</a></li>
-                <li role="presentation" class="active"><a href="./form-fields.html">Fields</a></li>
+                <li role="presentation"><a href="#/forms">Forms</a></li>
+                <li role="presentation" class="active"><a>Fields</a></li>
             </ul>
             <br>
-            <form>
-                <div class="form-group">
-                    <div class="container">
-                        <div class="col-sm-6">
-                            <label for="inputFirstName">First Name: </label>
-                            <input type="text" class="form-control" id="inputFirstName" placeholder="First Name">
+            <form class="clearfix">
+                <div ng-repeat="field in fields">
+                    <div ng-switch="{{field.type}}">
+                        <div ng-switch-when="TEXT" class="form-group col-md-9">
+                            <label>{{field.label}}</label>
+                            <input type="text" class="form-control" placeholder="{{field.placeholder}}">
                         </div>
-                        <div class="col-sm-1">
+                        <div ng-switch-when="TEXTAREA" class="form-group col-md-9">
+                            <label>{{field.label}}</label>
+                            <input type="text" class="form-control" placeholder="{{field.placeholder}}">
                         </div>
-                        <div class="col-sm-5">
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-pencil"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-plus"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-remove"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-menu-hamburger"></span></a>
+                        <div ng-switch-when="DATE" class="form-group col-md-9">
+                            <label>{{field.label}}</label>
+                            <input type="date" class="form-control">
                         </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="container">
-                        <div class="col-sm-6">
-                            <label for="inputLastName">Last Name: </label>
-                            <input type="text" class="form-control" id="inputLastName" placeholder="Last Name">
-                        </div>
-                        <div class="col-sm-1">
-                        </div>
-                        <div class="col-sm-5">
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-pencil"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-plus"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-remove"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-menu-hamburger"></span></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="container">
-                        <div class="col-sm-6">
-                            <label for="inputDateOfBirth">Date of Birth: </label>
-                            <input type="date" class="form-control" id="inputDateOfBirth">
-                        </div>
-                        <div class="col-sm-1">
-                        </div>
-                        <div class="col-sm-5">
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-pencil"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-plus"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-remove"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-menu-hamburger"></span></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="container">
-                        <div class="col-sm-6">
-                            <label for="inputGender">Gender: </label>
-                            <select class="form-control" id="inputGender">
-                                <option>Male</option>
-                                <option>Female</option>
-                                <option>Other</option>
+                        <div ng-switch-when="OPTIONS" class="form-group col-md-9">
+                            <label>{{field.label}}</label>
+                            <select class="form-control">
+                                <option ng-repeat="option in field.options">{{option.label}}</option>
                             </select>
                         </div>
-                        <div class="col-sm-1">
+                        <div ng-switch-when="CHECKBOXES" class="form-group-col-md-9">
+                            <label>{{field.label}}</label>
+                            <div ng-repeat="option in field.options" class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    {{option.label}}
+                                </label>
+                            </div>
                         </div>
-                        <div class="col-sm-5">
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-pencil"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-plus"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-remove"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-menu-hamburger"></span></a>
+                        <div ng-switch-default class="form-group col-md-9">
+                            <label>{{field.label}}</label>
+                            <div ng-repeat="option in field.options" class="radio">
+                                <label>
+                                    <input type="radio" value="">
+                                    {{option.label}}
+                                </label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="container">
-                        <div class="col-sm-6">
-                            <label for="inputRoles">Roles: </label>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" id="inputRoles" value="">
-                                    Admin
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" id="inputRoles" value="">
-                                    Student
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" id="inputRoles" value="">
-                                    User
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-1">
-                        </div>
-                        <div class="col-sm-5">
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-pencil"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-plus"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-remove"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-menu-hamburger"></span></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="container">
-                        <div class="col-sm-6">
-                            <label for="confirmLicense">License Agreement: </label>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="optionsRadios" id="confirmLicense" value="yes">
-                                    Yes
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="optionsRadios" id="confirmLicense" value="no">
-                                    No
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-1">
-                        </div>
-                        <div class="col-sm-5">
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-pencil"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-plus"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-remove"></span></a>
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-menu-hamburger"></span></a>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="form-group">
-                    <div class="container">
-                        <div class="col-sm-6">
-                            <label for="inputField">Add New Field: </label>
-                            <select class="form-control" id="inputField">
-                                <option>Single Line Text</option>
-                                <option>Date</option>
-                                <option>Dropdown</option>
-                                <option>Checkboxes</option>
-                                <option>Radio Buttons</option>
-                                <option>Paragraph Text Field</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-1">
-                        </div>
-                        <div class="col-sm-5">
-                            <a href="#"><span class="glyphicon glyphicon-large glyphicon-plus"></span></a>
-                        </div>
+                    <div class="icons col-md-3">
+                        <i ng-click="openEditModal(field)" class="glyphicon glyphicon-pencil"></i>
+                        <i ng-click="removeField(field)" class="glyphicon glyphicon-remove"></i>
                     </div>
                 </div>
             </form>
+            <hr>
+            <div>
+                <div class="form-group col-md-9">
+                    <label>Add New Field:</label>
+                    <select ng-model="fieldType" class="form-control">
+                        <option value="TEXT">Single Line Text</option>
+                        <option value="TEXTAREA">Multi Line Text Field</option>
+                        <option value="DATE">Date Field</option>
+                        <option value="OPTIONS">Dropdown Field</option>
+                        <option value="CHECKBOXES">Checkboxes Field</option>
+                        <option value="RADIOS">Radio Buttons Field</option>
+                    </select>
+                </div>
+                <div class="icons col-md-3">
+                    <i ng-click="addField()" class="glyphicon glyphicon-plus"></i>
+                </div>
+            </div>
         </div>
     </div>
 </div>

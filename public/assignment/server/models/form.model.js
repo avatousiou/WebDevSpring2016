@@ -57,7 +57,7 @@ module.exports = function(){
     function updateFormById(formId, updatedForm){
         for(var f in forms){
             if(forms[f]._id == formId){
-                forms[i] = updatedForm;
+                forms[f] = updatedForm;
                 return updatedForm;
             }
         }
