@@ -1,0 +1,77 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Forms : Form Fields</h1>
+
+            <ul class="nav nav-tabs">
+                <li role="presentation"><a href="#/forms">Forms</a></li>
+                <li role="presentation" class="active"><a>Fields</a></li>
+            </ul>
+            <br>
+            <form class="clearfix">
+                <div ng-repeat="field in fields">
+                    <div ng-switch="{{field.type}}">
+                        <div ng-switch-when="TEXT" class="form-group col-md-9">
+                            <label>{{field.label}}</label>
+                            <input type="text" class="form-control" placeholder="{{field.placeholder}}">
+                        </div>
+                        <div ng-switch-when="TEXTAREA" class="form-group col-md-9">
+                            <label>{{field.label}}</label>
+                            <input type="text" class="form-control" placeholder="{{field.placeholder}}">
+                        </div>
+                        <div ng-switch-when="DATE" class="form-group col-md-9">
+                            <label>{{field.label}}</label>
+                            <input type="date" class="form-control">
+                        </div>
+                        <div ng-switch-when="OPTIONS" class="form-group col-md-9">
+                            <label>{{field.label}}</label>
+                            <select class="form-control">
+                                <option ng-repeat="option in field.options">{{option.label}}</option>
+                            </select>
+                        </div>
+                        <div ng-switch-when="CHECKBOXES" class="form-group-col-md-9">
+                            <label>{{field.label}}</label>
+                            <div ng-repeat="option in field.options" class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    {{option.label}}
+                                </label>
+                            </div>
+                        </div>
+                        <div ng-switch-default class="form-group col-md-9">
+                            <label>{{field.label}}</label>
+                            <div ng-repeat="option in field.options" class="radio">
+                                <label>
+                                    <input type="radio" value="">
+                                    {{option.label}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="icons col-md-3">
+                        <i ng-click="openEditModal(field)" class="glyphicon glyphicon-pencil"></i>
+                        <i ng-click="removeField(field)" class="glyphicon glyphicon-remove"></i>
+                    </div>
+                </div>
+            </form>
+            <hr>
+            <div>
+                <div class="form-group col-md-9">
+                    <label>Add New Field:</label>
+                    <select ng-model="fieldType" class="form-control">
+                        <option value="TEXT">Single Line Text</option>
+                        <option value="TEXTAREA">Multi Line Text Field</option>
+                        <option value="DATE">Date Field</option>
+                        <option value="OPTIONS">Dropdown Field</option>
+                        <option value="CHECKBOXES">Checkboxes Field</option>
+                        <option value="RADIOS">Radio Buttons Field</option>
+                    </select>
+                </div>
+                <div class="icons col-md-3">
+                    <i ng-click="addField()" class="glyphicon glyphicon-plus"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
