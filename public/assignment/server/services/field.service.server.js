@@ -34,6 +34,6 @@ module.exports = function(app, model, db){
         var formId = request.params.formId;
         var fieldId = request.params.fieldId;
         model.deleteFormFieldById(formId, fieldId);
-        response.json.status(200);
+        response.status(200).send();
     })
 };

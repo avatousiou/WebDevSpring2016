@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="PokemonLeagueApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="./assets/stylesheets/dashboard.css" rel="stylesheet">
+
+    <!-- Files for Angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.2.4/ui-bootstrap-tpls.js"></script>
+
+    <script src="app.js"></script>
+    <script src="config.js"></script>
+
+</head>
+
+<body ng-controller="MainController">
+
+<div ng-include="'views/header/header.view.html'"></div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div ng-include="'views/sidebar/sidebar.view.html'"></div>
+        <div ng-view>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Loading Javascript files -->
+<script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.1.1/js/tether.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+
+<!-- Controllers -->
+<script src="views/header/header.controller.js"></script>
+<script src="views/sidebar/sidebar.controller.js"></script>
+<script src="views/main/main.controller.js"></script>
+<script src="views/home/home.controller.js"></script>
+<script src="views/trainers/register.controller.js"></script>
+<script src="views/trainers/profile.controller.js"></script>
+<script src="views/trainers/login.controller.js"></script>
+<script src="views/trainers/badges.controller.js"></script>
+<script src="views/admin/admin.controller.js"></script>
+
+<!-- Services -->
+<script src="services/trainer.service.client.js"></script>
+<script src="services/pokemon.service.client.js"></script>
+
+</body>
+</html>

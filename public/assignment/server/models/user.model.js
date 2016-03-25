@@ -4,6 +4,7 @@ module.exports = function(){
 
     var api = {
         findUserByCredentials: findUserByCredentials,
+        findUserByUsername: findUserByUsername,
         findUserById: findUserById,
         findAll: findAll,
         create: createUser,
@@ -20,6 +21,14 @@ module.exports = function(){
             }
         }
         return null;
+    }
+
+    function findUserByUsername(username){
+        for(var u in users){
+            if(username == users[u].username){
+                return users[u];
+            }
+        }
     }
 
     function findUserById(id){
