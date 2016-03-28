@@ -1,75 +1,20 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-10 col-sm-offset-2 main">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6 col-md-3">
-                        <span class="glyphicon glyphicon-large glyphicon-user"></span>
-                    </div>
-                    <div class="col-sm-6 col-md-9">
-                        <p>Username: Ash Ketchum</p>
-                        <p>Email: ketchumall@gmail.com</p>
-                        <p>3DS Friend Code: 0000-0000-0000</p>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-
-                    <ul class="nav nav-tabs">
-                        <li role="presentation"><a href="#/profile">My Team</a></li>
-                        <li role="presentation" class="active"><a href="#/badges">Badges</a></li>
-                    </ul>
-                    <br>
-                    <h3 class="text-center">League 1</h3>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xs-3 gym-badge">
-                                <img src="../../assets/images/1trio.png">
-                            </div>
-                            <div class="col-xs-3 gym-badge">
-                                <img src="../../assets/images/2basic.png">
-                            </div>
-                            <div class="col-xs-3 gym-badge">
-                                <img src="../../assets/images/3insect.png">
-                            </div>
-                            <div class="col-xs-3 gym-badge">
-                                <img src="../../assets/images/4bolt.png">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-xs-3 gym-badge">
-                                <img src="../../assets/images/5quake.png">
-                            </div>
-                            <div class="col-xs-3 gym-badge">
-                                <img src="../../assets/images/6jet.png">
-                            </div>
-                            <div class="col-xs-3 gym-badge">
-                                <img src="../../assets/images/7freeze.png">
-                            </div>
-                            <div class="col-xs-3 gym-badge">
-                                <img src="../../assets/images/8legend.png">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-xs-3 star">
-                                <img src="../../assets/images/blackstar.png">
-                            </div>
-                            <div class="col-xs-3 star">
-                                <img src="../../assets/images/blackstar.png">
-                            </div>
-                            <div class="col-xs-3 star">
-                                <img src="../../assets/images/blackstar.png">
-                            </div>
-                            <div class="col-xs-3 star">
-                                <img src="../../assets/images/blackstar.png">
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                </div>
+<div ng-repeat="league in leagues">
+    <h3 class="text-center">{{league.leagueName}}</h3>
+    <div class="container">
+        <div class="row">
+            <div ng-repeat="badge in league.gymLeaders | limitTo : 4 : 0" class="col-xs-3 gym-badge">
+                <img ng-src="../assets/images/{{badge.badgeImage}}">
+            </div>
+            <br>
+            <div ng-repeat="badge in league.gymLeaders | limitTo : 4 : 4" class="col-xs-3 gym-badge">
+                <img ng-src="../assets/images/{{badge.badgeImage}}">
+            </div>
+            <br>
+            <div ng-repeat="e in league.eliteFour" class="col-xs-3 star">
+                <img src="../../assets/images/blackstar.png">
             </div>
         </div>
     </div>
 </div>
+<hr>
+

@@ -3,7 +3,7 @@
         .module("PokemonLeagueApp")
         .controller("ProfileController", ProfileController);
 
-    function ProfileController($scope, $rootScope, $routeParams, TrainerService, PokemonService, $location){
+    function ProfileController($scope, $rootScope, $routeParams, LeagueService, PokemonService, $location){
         $rootScope.state = "profile";
 
         if(!$rootScope.user){
@@ -11,8 +11,11 @@
             return;
         }
 
+        $scope.selectedTab = 'team';
+
         var trainerId = $routeParams.trainerId;
 
+        // For Team Tab
         $scope.pokemon = {};
 
         $scope.team = [];
@@ -59,5 +62,9 @@
                         });
                 });
         };
+
+        // For Badges Tab
+        $scope.leagues = [];
+        LeagueService.getLeagues(trainerId).then(function(response){$scope.leagues = response.data});
     }
 })();

@@ -25,6 +25,10 @@
                 templateUrl: "views/trainers/badges.view.html",
                 controller: "BadgesController"
             })
+            .when("/leagues",{
+                templateUrl: "views/leagues/leagues.view.html",
+                controller: "LeaguesController"
+            })
             .when("/admin",{
                 templateUrl: "views/admin/admin.view.html",
                 controller: "AdminController"

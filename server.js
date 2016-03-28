@@ -20,4 +20,7 @@ var trainerModel = require("./public/project/server/models/trainer.model.js")();
 require("./public/project/server/services/trainer.service.server.js")(app, trainerModel);
 require("./public/project/server/services/pokemon.service.server.js")(app, trainerModel);
 
+var leagueModel = require("./public/project/server/models/league.model.js")();
+require("./public/project/server/services/league.service.server.js")(app, leagueModel);
+
 app.listen(port, ipaddress);
