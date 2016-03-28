@@ -1,0 +1,77 @@
+[
+  {"_id": 123, "firstName": "Ash", "lastName": "Ketchum", "email": "gottaketchumall@gmail.com",
+    "username": "catchemall", "password": "ash", "friendCode": "0011-2233-4455-6677",
+    "trainerType": "Trainer", "leagues": [111],
+    "team": [
+      {"_id": 112, "pokemonName": "Quagsire", "moveset": ["Recover", "Toxic", "Scald", "Earthquake"], "item": "Leftovers",
+      "ability": "Iron Barbs", "nature": "Relaxed", "EVs": [252, 0, 252, 0, 4, 0]},
+      {"_id": 122, "pokemonName": "Ferrothorn", "moveset": ["Leech Seed", "Protect", "Stealth Rock", "Gyro Ball"],
+      "item": "Leftovers", "ability": "Iron Barbs", "nature": "Relaxed", "EVs": [252, 0, 88, 0, 168, 0]},
+      {"_id": 132, "pokemonName": "Venusaur", "moveset": ["Giga Drain", "Sludge Bomb", "Synthesis", "Knock Off"],
+      "item": "Venusaurite", "ability": "Chlorophyll", "nature": "Bold", "EVs": [248, 0, 96, 0, 144, 20]}
+    ]
+  },
+  {"_id": 345, "firstName": "Brock", "lastName": "", "email": "pewtergym@gmail.com",
+  "username": "brock", "password": "brock", "friendCode": "3452-2034-5030-0323",
+  "trainerType": "GymLeader", "leagues": [111],
+  "team": [
+    {"_id": 4530, "pokemonName": "Onix", "moveset": ["Iron Tail", "Headbutt", "Bind", "Earthquake"],
+    "item": "Soft Sand", "ability": "Sturdy", "nature": "Jolly", "EVs": [76, 236, 0, 0, 0, 196]}
+  ]},
+  {"_id": 245, "firstName": "Misty", "lastName": "", "email": "ceruleangym@gmail.com",
+  "username": "misty", "password": "misty", "friendCode": "0223-2434-6854-3484",
+  "trainerType": "GymLeader", "leagues": [111],
+  "team": [
+    {"_id": 657, "pokemonName": "Gyarados", "moveset": ["Dragon Dance", "Crunch", "Waterfall", "Earthquake"],
+    "item": "Gyaradosite", "ability": "Intimidate", "nature": "Jolly", "EVs": [0, 252, 4, 0, 0, 252]}
+  ]},
+  {"_id": 4521, "firstName": "Lieutenant", "lastName": "Surge", "email": "vermiliongym@gmail.com",
+  "username": "surge", "password": "surge", "friendCode": "4023-2032-5983-0932",
+  "trainerType": "GymLeader", "leagues": [111],
+  "team": [
+    {"_id": 8793, "pokemonName": "Raichu", "moveset": ["Nasty Plot", "Thunderbolt", "Focus Blast", "Hidden Power Ice"],
+    "item": "Life Orb", "ability": "Lightning Rod", "nature": "Timid", "EVs": [0, 0, 0, 252, 4, 252]}
+  ]},
+  {"_id": 4293, "firstName": "Erika", "lastName": "", "email": "celadongym@gmail.com",
+  "username": "erika", "password": "erika", "friendCode": "2083-4582-4892-7122",
+  "trainerType": "GymLeader", "leagues": [111],
+  "team": [
+    {"_id": 723, "pokemonName": "Tangrowth", "moveset": ["Leaf Storm", "Focus Blast", "Sludge Bomb", "Sleep Powder"],
+    "item": "Life Orb", "ability": "Regenerator", "nature": "Modest", "EVs": [132, 0, 0, 252, 0, 124]}
+  ]},
+  {"_id": 9302, "firstName": "Koga", "lastName": "", "email": "fuchsiagym@gmail.com",
+  "username": "ninja", "password": "ninja", "friendCode": "5920-3190-8410-0121",
+  "trainerType": "GymLeader", "leagues": [111],
+  "team": [
+    {"_id": 3099, "pokemonName": "Venomoth", "moveset": ["Quiver Dance", "Bug Buzz", "Substitute", "Roost"],
+    "item": "Black Sludge", "ability": "Tinted Lens", "nature": "Timid", "EVs": [0, 0, 0, 252, 4, 252]}
+  ]},
+  {"_id": 8472, "firstName": "Sabrina", "lastName": "", "email": "saffrongym@gmail.com",
+  "username": "sabrina", "password": "sabrina", "friendCode": "5034-1203-4209-2034",
+  "trainerType": "GymLeader", "leagues": [111],
+  "team": [
+    {"_id": 643, "pokemonName": "Alakazam", "moveset": ["Psychic", "Focus Blast", "Shadow Ball", "Substitute"],
+    "item": "Alakazite", "ability": "Magic Guard", "nature": "Timid", "EVs": [0, 0, 4, 252, 0, 252]}
+  ]},
+  {"_id": 3028, "firstName": "Blaine", "lastName": "", "email": "cinnabargym@gmail.com",
+  "username": "blaine", "password": "blaine", "friendCode": "8423-3201-4902-5402",
+  "trainerType": "GymLeader", "leagues": [111],
+  "team": [
+    {"_id": 583, "pokemonName": "Magmortar", "moveset": ["Fire Blast", "Thunderbolt", "Hidden Power Grass", "Earthquake"],
+    "item": "Assault Vest", "ability": "Vital Spirit", "nature": "Modest", "EVs": [64, 0, 0, 252, 0, 192]}
+  ]},
+  {"_id": 8423, "firstName": "Giovanni", "lastName": "", "email": "viridiangym@gmail.com",
+  "username": "theboss", "password": "theboss", "friendCode": "3201-3103-5029-5023",
+  "trainerType": "GymLeader", "leagues": [111],
+  "team": [
+    {"_id": 8302, "pokemonName": "Nidoking", "moveset": ["Sludge Wave", "Earth Power", "Ice Beam", "Superpower"],
+    "item": "Life Orb", "ability": "Sheer Force", "nature": "Naive", "EVs": [0, 0, 4, 252, 0, 252]}
+  ]},
+  {"_id": 932, "firstName": "Lorelei", "lastName": "", "email": "fourice@gmail.com",
+  "username": "lorelei", "password": "lorelei", "friendCode": "8312-1201-0001-3413",
+  "trainerType": "EliteFour", "leagues": [111],
+  "team": [
+    {"_id": 930, "pokemonName": "Cloyster", "moveset": ["Shell Smash", "Icicle Spear", "Rock Blast", "Hydro Pump"],
+    "item": "Focus Sash", "ability": "Skill Link", "nature": "Naive", "EVs": [0, 252, 0, 4, 0, 252]}
+  ]}
+]
