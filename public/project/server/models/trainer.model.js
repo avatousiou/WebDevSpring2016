@@ -1,132 +1,231 @@
-module.exports = function(){
+var Q = require('q');
 
-    var users = require("./trainers.mock.json");
+module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderModel, eliteFourModel){
 
     var api = {
         findTrainerByCredentials: findTrainerByCredentials,
         findTrainerByUsername: findTrainerByUsername,
         findTrainerById: findTrainerById,
         findAll: findAll,
-        create: createTrainer,
-        update: updateTrainer,
-        delete: deleteTrainerById,
+        createTrainer: createTrainer,
+        updateTrainer: updateTrainer,
+        deleteTrainer: deleteTrainerById,
         addPokemon: addPokemon,
         getTeam: getTeam,
         getPokemonById: getPokemonById,
         updatePokemonById: updatePokemonById,
-        deletePokemonById: deletePokemonById
+        deletePokemonById: deletePokemonById,
+        addCommentForTeam: addCommentForTeam,
+        updateGymLeaderById: updateGymLeaderById,
+        updateEliteFourById: updateEliteFourById
     };
 
     return api;
 
     function findTrainerByCredentials(username, password){
-        for(var u in users){
-            if((username == users[u].username) || (password == users[u].password)){
-                return users[u];
-            }
-        }
-        return null;
+        trainerModel.findOne({ username: username }, function(err){
+            if (err) return console.error(err);
+            return trainer;
+        });
     }
 
     function findTrainerByUsername(username){
-        for(var u in users){
-            if(username == users[u].username){
-                return users[u];
+        var deferred = Q.defer();
+
+        trainerModel.findOne({username: username}, function(err, trainer){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(trainer);
             }
-        }
+        });
+        return deferred.promise;
     }
 
-    function findTrainerById(id){
-        for(var u in users){
-            if(id == users[u]._id){
-                return users[u];
+    function findTrainerById(trainerId){
+        var deferred = Q.defer();
+
+        trainerModel.findOne({id: trainerId}, function(err, trainer){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(trainer);
             }
-        }
-        return null;
+        });
+        return deferred.promise;
     }
 
     function findAll(){
-        return users;
+        var deferred = Q.defer();
+
+        trainerModel.find(function(err, trainers){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(trainers);
+            }
+        });
+        return deferred.promise;
     }
 
     function createTrainer(user){
-        users.push(user);
-        return user;
+        var deferred = Q.defer();
+
+        trainerModel.create(user, function(err, trainer){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(trainer);
+            }
+        });
+        return deferred.promise;
     }
 
     function updateTrainer(id, user){
-        for(var u in users){
-            if(id == users[u]._id){
-                users[u] = user;
-                return user;
+        var deferred = Q.defer();
+
+        trainerModel.findByIdAndUpdate(id, user, {new: true}, function(err, trainer){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(trainer);
             }
-        }
-        return null;
+        });
+        return deferred.promise;
     }
 
-    function deleteTrainerById(id){
-        for(var u in users){
-            if(id == users[u]._id){
-                users.pop(users[u]);
+    function deleteTrainerById(trainerId){
+        var deferred = Q.defer();
+
+        trainerModel.findOneAndRemove({id: trainerId}, function(err, trainer){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(trainer);
             }
-        }
-        return null;
+        });
+        return deferred.promise;
     }
 
     function getTeam(trainerId){
-        for(var u in users){
-            if(trainerId == users[u]._id){
-                return users[u].team;
+        var deferred = Q.defer();
+
+        trainerModel.findById(trainerId, function(err, trainer){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(trainer.pokemon);
             }
-        }
+        });
+        return deferred.promise;
     }
 
     function getPokemonById(trainerId, pokemonId){
-        for(var u in users){
-            if(trainerId == users[u]._id){
-                for(p in users[u].team){
-                    if(users[u].team[p]._id == pokemonId){
-                        return users[u].team[p];
-                    }
-                }
+        var deferred = Q.defer();
+
+        pokemonModel.findOne({id: pokemonId}, function(err, poke){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(poke);
             }
-        }
+        });
+        return deferred.promise;
     }
 
     function addPokemon(trainerId, pokemon){
-        for(var u in users){
-            if(trainerId == users[u]._id){
-                if(users[u].team.size < 6){
-                    users[u].team.push(pokemon);
-                }
+        var deferred = Q.defer();
+
+        pokemonModel.create(pokemon, function(err, createdPokemon){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                trainerModel.findByIdAndUpdate(trainerId, {$push: {"pokemon": createdPokemon}}, {new: true}, function(err, updatedTrainer){
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+                        deferred.resolve(updatedTrainer);
+                    }
+                })
             }
-        }
+        });
+        return deferred.promise;
     }
 
     function updatePokemonById(trainerId, pokemonId, pokemon){
-        for(var u in users){
-            if(trainerId == users[u]._id){
-                var trainer = users[u];
-                for(var p in trainer.team){
-                    if(trainer.team[p]._id == pokemonId){
-                        trainer.team[p] = pokemon;
-                    }
-                }
+        var deferred = Q.defer();
+
+        pokemonModel.findByIdAndUpdate(pokemonId, pokemon, { new: true}, function(err, poke){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(poke);
             }
-        }
+        });
+        return deferred.promise;
     }
 
     function deletePokemonById(trainerId, pokemonId){
-        for(var u in users){
-            if(trainerId == users[u]._id){
-                var trainer = users[u];
-                for(var p in trainer.team){
-                    if(pokemonId == trainer.team[p]){
-                        trainer.team.pop(trainer.team[p]);
+        var deferred = Q.defer();
+
+        pokemonModel.findOneAndRemove({id: pokemonId}, function(err, poke){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                trainerModel.findByIdAndUpdate(trainerId, {$pull: {"pokemon": poke}}, {new: true}, function(err, updatedTrainer){
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+                        deferred.resolve(updatedTrainer);
                     }
-                }
+                });
             }
-        }
+        });
+        return deferred.promise;
     }
 
+    function addCommentForTeam(trainerId, comment){
+        var deferred = Q.defer();
+
+        commentModel.create(comment, function(err, createdComment){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                trainerModel.findByIdAndUpdate(trainerId, {$push: {"comments": createdComment}}, {new: true}, function(err, updatedTrainer){
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+                        deferred.resolve(updatedTrainer);
+                    }
+                });
+            }
+        });
+        return deferred.promise;
+    }
+
+    function updateGymLeaderById(trainerId, defeatedBy){
+        var deferred = Q.defer();
+
+        gymLeaderModel.findOneAndUpdate({trainer: trainerId}, {$push: {beatenBy: defeatedBy}}, {new: true}, function(err, leader){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(leader);
+            }
+        });
+        return deferred.promise;
+    }
+
+    function updateEliteFourById(trainerId, defeatedBy){
+        var deferred = Q.defer();
+
+        eliteFourModel.findOneAndUpdate({trainer: trainerId}, {$push: {beatenBy: defeatedBy}}, {new: true}, function(err, eliteFour){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(eliteFour);
+            }
+        });
+        return deferred.promise;
+    }
 };

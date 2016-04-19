@@ -1,6 +1,6 @@
-module.exports = function(){
-    var leagues = require("./leagues.mock.json");
-    var users = require("./trainers.mock.json");
+var Q = require('q');
+
+module.exports = function(leagueModel){
 
     var api = {
         getLeagues: getLeagues,
@@ -10,7 +10,16 @@ module.exports = function(){
     return api;
 
     function getLeagues(){
-        return leagues;
+        var deferred = Q.defer();
+
+        leagueModel.find(function(err, leagues){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(leagues);
+            }
+        });
+        return deferred.promise;
     }
 
     function getLeaguesForTrainer(trainerId){
