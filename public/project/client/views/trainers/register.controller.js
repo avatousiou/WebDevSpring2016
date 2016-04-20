@@ -4,7 +4,7 @@
         .controller("RegisterController", RegisterController);
 
     function RegisterController($scope, $rootScope, TrainerService, $location){
-        $scope.form = {
+        $scope.user = {
             username: "",
             password: "",
             verifyPassword: "",
@@ -14,13 +14,20 @@
             friendCode: ""
         };
 
-        $scope.register = function(){
-            TrainerService
-                .createTrainer($scope.form)
-                .then(function(response){
-                    $rootScope.user = response.data;
-                    $location.path("/profile");
-                })
+        $scope.register = function(user){
+            if ((user.password != user.verifyPassword) || !user.password || !user.verifyPassword){
+                $scope.error = "Your passwords don't match";
+            } else {
+                TrainerService.register(user).then(function(response){
+                    var user = response.data;
+                    if(user != null){
+                        $rootScope.user = user;
+                        $location.url("/profile/" + user._id);
+                    }
+                }, function(err){
+                    $scope.error = err;
+                });
+            }
         }
     }
 })();

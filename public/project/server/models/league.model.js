@@ -3,8 +3,7 @@ var Q = require('q');
 module.exports = function(leagueModel){
 
     var api = {
-        getLeagues: getLeagues,
-        getLeaguesForTrainer: getLeaguesForTrainer
+        getLeagues: getLeagues
     };
 
     return api;
@@ -20,9 +19,5 @@ module.exports = function(leagueModel){
             }
         });
         return deferred.promise;
-    }
-
-    function getLeaguesForTrainer(trainerId){
-        return leagues;
     }
 };

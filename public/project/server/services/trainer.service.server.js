@@ -1,8 +1,66 @@
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
 module.exports = function(app, model){
-    app.post("/api/project/trainer", function(request, response){
-        console.log(model);
+
+    var auth = authorized;
+
+    passport.use(new LocalStrategy(function(username, password, done){
+        model.findTrainerByCredentials({"username": username, "password": password}).then(function(user){
+            if (!user) { return done(null, false); }
+            return done(null, user);
+        }, function(err){
+            if (err) { return done(err); }
+        })
+    }));
+
+    passport.serializeUser(serializeUser);
+    passport.deserializeUser(deserializeUser);
+
+    app.post("/api/project/login", passport.authenticate('local'), function(request, response){
+        var user = request.user;
+        response.json(user);
+    });
+
+    app.post("/api/project/logout", function(request, response){
+        request.logOut();
+        response.send(200);
+    });
+
+    app.post("/api/project/register", function(request, response){
+        var newUser = request.body;
+        newUser.trainerType = "Trainer";
+
+        model.findTrainerByUsername(newUser.username).then(function(user){
+            if (user) {
+                response.json(null);
+            } else {
+                return model.createTrainer(newUser);
+            }
+        }, function(err){
+            response.status(400).send(err);
+        }).then(function(user){
+            if(user){
+                request.login(user, function(err){
+                    if (err) {
+                        response.status(400).send(err);
+                    } else {
+                        response.status(200).send(user);
+                    }
+                });
+            }
+        }, function(err){
+            response.status(400).send(err);
+        });
+    });
+
+    app.get("/api/project/loggedIn", function(request, response){
+        response.send(request.isAuthenticated() ? request.user : '0');
+    });
+
+    app.post("/api/project/trainer", auth, function(request, response){
         var newTrainer = request.body;
-        model.create(newTrainer).then(function(resp){
+        model.createTrainer(newTrainer).then(function(resp){
             response.status(200).send(resp);
         }, function(err){
             console.log(err);
@@ -10,7 +68,7 @@ module.exports = function(app, model){
         });
     });
 
-    app.get("/api/project/trainer", function(request, response){
+    app.get("/api/project/trainer", auth, function(request, response){
         var username = request.query.username;
         var password = request.query.password;
         if(username && password){
@@ -47,7 +105,7 @@ module.exports = function(app, model){
         })
     });
 
-    app.put("/api/project/trainer/:id", function(request, response){
+    app.put("/api/project/trainer/:id", auth, function(request, response){
         var id = request.params.id
         var newTrainer = request.body;
         model.updateTrainer(id, newTrainer).then(function(resp){
@@ -58,7 +116,7 @@ module.exports = function(app, model){
         });
     });
 
-    app.post("/api/project/trainer/:trainerId/team/comments", function(request, response){
+    app.post("/api/project/trainer/:trainerId/team", function(request, response){
         var trainerId = request.params.trainerId;
         var newPokemon = request.body;
         model.addPokemon(trainerId, newPokemon).then(function(resp){
@@ -145,4 +203,34 @@ module.exports = function(app, model){
             response.status(400).send(err);
         });
     });
+
+    app.get("/api/project/trainer/:trainerId/leagues", function(request, response){
+        var trainerId = request.params.trainerId;
+        model.getLeaguesForTrainer(trainerId).then(function(resp){
+            response.status(200).send(resp);
+        }, function(err){
+            console.log(err);
+            response.status(400).send(err);
+        })
+    });
+
+    function serializeUser(user, done){
+        done(null, user);
+    }
+
+    function deserializeUser(user, done){
+        model.findTrainerById(user._id).then(function(user){
+            done(null, user);
+        }, function(err){
+            done(err, null);
+        });
+    }
+
+    function authorized(request, response, next){
+        if (!request.isAuthenticated()){
+            response.send(401);
+        } else {
+            next();
+        }
+    }
 };

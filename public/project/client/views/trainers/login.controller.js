@@ -4,20 +4,18 @@
         .controller("LoginController", LoginController);
 
     function LoginController($scope, $rootScope, TrainerService, $location){
-        $scope.form = {
+        $scope.user = {
             username: "",
             password: ""
         };
 
-        $scope.login = function(){
-            TrainerService
-                .findTrainerByCredentials($scope.form.username, $scope.form.password)
-                .then(function(response){
-                    if(response.data){
-                        $rootScope.user = response.data;
-                        $location.path("/profile/123");
-                    }
-                })
+        $scope.login = function(user){
+            TrainerService.login(user).then(function(response){
+                $rootScope.user = response.data;
+                $location.url("/profile/" + response.data._id);
+            }, function(err){
+                $scope.error = err;
+            });
         }
     }
 })();

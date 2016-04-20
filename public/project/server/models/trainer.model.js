@@ -1,6 +1,6 @@
 var Q = require('q');
 
-module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderModel, eliteFourModel){
+module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderModel, eliteFourModel, leagueModel){
 
     var api = {
         findTrainerByCredentials: findTrainerByCredentials,
@@ -17,16 +17,19 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
         deletePokemonById: deletePokemonById,
         addCommentForTeam: addCommentForTeam,
         updateGymLeaderById: updateGymLeaderById,
-        updateEliteFourById: updateEliteFourById
+        updateEliteFourById: updateEliteFourById,
+        getLeaguesForTrainer: getLeaguesForTrainer
     };
 
     return api;
 
-    function findTrainerByCredentials(username, password){
-        trainerModel.findOne({ username: username }, function(err){
-            if (err) return console.error(err);
-            return trainer;
-        });
+    function findTrainerByCredentials(credentials){
+        return trainerModel.findOne(
+            {
+                username: credentials.username,
+                password: credentials.password
+            }
+        )
     }
 
     function findTrainerByUsername(username){
@@ -155,11 +158,16 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
     function updatePokemonById(trainerId, pokemonId, pokemon){
         var deferred = Q.defer();
 
-        pokemonModel.findByIdAndUpdate(pokemonId, pokemon, { new: true}, function(err, poke){
+        trainerModel.find({id: trainerId}, function(err, trainer){
             if (err) {
                 deferred.reject(err);
             } else {
-                deferred.resolve(poke);
+                for(var poke in trainer.pokemon){
+                    if (poke._id == pokemonId) {
+                        poke = pokemon;
+                    }
+                }
+                deferred.resolve(trainer);
             }
         });
         return deferred.promise;
@@ -224,6 +232,25 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
                 deferred.reject(err);
             } else {
                 deferred.resolve(eliteFour);
+            }
+        });
+        return deferred.promise;
+    }
+
+    function getLeaguesForTrainer(trainerId){
+        var deferred = Q.defer();
+
+        trainerModel.find({id: trainerId}, function(err, trainer){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                leagueModel.find({id: {$in: trainer.leagues}}, function(err, league){
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+                        deferred.resolve(league);
+                    }
+                });
             }
         });
         return deferred.promise;

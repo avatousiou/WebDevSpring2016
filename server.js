@@ -1,13 +1,27 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-
+var passport = require('passport');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var app = express();
+
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(session({
+    secret: "TOP_SECRET",
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+
+
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+var db = mongoose.connect('mongodb://localhost/WebDev');
 
 // For assignments
 var userModel = require("./public/assignment/server/models/user.model.js")();
@@ -32,7 +46,7 @@ var pokemon = mongoose.model('Pokemon', PokemonSchema);
 var comment = mongoose.model('Comment', CommentSchema);
 var league = mongoose.model('League', LeagueSchema);
 
-var trainerModel = require("./public/project/server/models/trainer.model.js")(trainer, pokemon, comment, gymLeader, eliteFour);
+var trainerModel = require("./public/project/server/models/trainer.model.js")(trainer, pokemon, comment, gymLeader, eliteFour, league);
 require("./public/project/server/services/trainer.service.server.js")(app, trainerModel);
 
 var leagueModel = require("./public/project/server/models/league.model.js")(league);

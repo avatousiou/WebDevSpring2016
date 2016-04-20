@@ -5,6 +5,9 @@
 
     function TrainerService($http){
         var service =  {
+            login: login,
+            logout: logout,
+            register: register,
             findAllTrainers: findAllTrainers,
             findTrainerByCredentials: findTrainerByCredentials,
             findTrainerByTrainername: findTrainerByTrainername,
@@ -18,10 +21,23 @@
             deletePokemonFromTeam: deletePokemonFromTeam,
             addCommentToTeam: addCommentToTeam,
             updateGymLeaderLosses: updateGymLeaderLosses,
-            updateEliteFourLosses: updateEliteFourLosses
+            updateEliteFourLosses: updateEliteFourLosses,
+            getLeaguesForTrainer: getLeaguesForTrainer
         };
 
         return service;
+
+        function login(user){
+            return $http.post("/api/project/login", user);
+        }
+
+        function logout(){
+            return $http.post("/api/project/logout");
+        }
+
+        function register(user){
+            return $http.post("/api/project/register", user);
+        }
 
         function findAllTrainers(){
             return $http.get("/api/project/trainer");
@@ -36,7 +52,6 @@
         }
 
         function createTrainer(user){
-            user._id = (new Date).getTime();
             return $http.post("/api/project/trainer", user);
         }
 
@@ -78,6 +93,10 @@
 
         function updateEliteFourLosses(eliteFourId, trainerId){
             return $http.put("/api/project/elitefour/" + eliteFourId, trainerId);
+        }
+
+        function getLeaguesForTrainer(trainerId){
+            return $http.get("/api/project/trainer/" + trainerId + "/leagues");
         }
     }
 })();
