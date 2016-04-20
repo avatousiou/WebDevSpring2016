@@ -16,9 +16,11 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
         updatePokemonById: updatePokemonById,
         deletePokemonById: deletePokemonById,
         addCommentForTeam: addCommentForTeam,
+        getAllComments: getAllComments,
         updateGymLeaderById: updateGymLeaderById,
         updateEliteFourById: updateEliteFourById,
-        getLeaguesForTrainer: getLeaguesForTrainer
+        getLeaguesForTrainer: getLeaguesForTrainer,
+        joinLeague: joinLeague
     };
 
     return api;
@@ -117,6 +119,7 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
             if (err) {
                 deferred.reject(err);
             } else {
+                console.log(trainer);
                 deferred.resolve(trainer.pokemon);
             }
         });
@@ -211,6 +214,20 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
         return deferred.promise;
     }
 
+    function getAllComments(trainerId){
+        var deferred = Q.defer();
+
+        trainerModel.findById(trainerId, function(err, trainer){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                console.log(trainer);
+                deferred.resolve(trainer.comments);
+            }
+        });
+        return deferred.promise;
+    }
+
     function updateGymLeaderById(trainerId, defeatedBy){
         var deferred = Q.defer();
 
@@ -244,13 +261,32 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
             if (err) {
                 deferred.reject(err);
             } else {
-                leagueModel.find({id: {$in: trainer.leagues}}, function(err, league){
-                    if (err) {
-                        deferred.reject(err);
-                    } else {
-                        deferred.resolve(league);
-                    }
-                });
+                var trainerLeagues = [];
+                for (var league in trainer.leagues){
+                    console.log(league);
+                    leagueModel.find({id: league}, function(err, league){
+                        if (err) {
+                            deferred.reject(err);
+                        } else {
+                            trainerLeagues.push(league);
+                        }
+                    });
+                }
+                console.log(trainerLeagues);
+                deferred.resolve(trainerLeagues);
+            }
+        });
+        return deferred.promise;
+    }
+
+    function joinLeague(trainerId, leagueId){
+        var deferred = Q.defer();
+
+        trainerModel.findByIdAndUpdate(trainerId,{$push: {"leagues": leagueId}},{new: true}, function(err, trainer){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(trainer);
             }
         });
         return deferred.promise;

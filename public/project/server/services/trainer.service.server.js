@@ -30,6 +30,7 @@ module.exports = function(app, model){
     app.post("/api/project/register", function(request, response){
         var newUser = request.body;
         newUser.trainerType = "Trainer";
+        console.log(newUser);
 
         model.findTrainerByUsername(newUser.username).then(function(user){
             if (user) {
@@ -182,6 +183,16 @@ module.exports = function(app, model){
         });
     });
 
+    app.get("/api/project/trainer/:trainerId/team/comments", function(request, response){
+        var trainerId = request.params.trainerId;
+        model.getAllComments(trainerId).then(function(resp){
+            response.status(200).send(resp);
+        }, function(err){
+            console.log(err);
+            response.status(400).send(err);
+        });
+    });
+
     app.put("/api/project/gymleader/:gymLeaderId", function(request, response){
         var gymLeaderId = request.params.gymLeaderId;
         var defeatedBy = request.body;
@@ -211,7 +222,18 @@ module.exports = function(app, model){
         }, function(err){
             console.log(err);
             response.status(400).send(err);
-        })
+        });
+    });
+
+    app.put("/api/project/trainer/:trainerId/leagues", function(request, response){
+        var trainerId = request.params.trainerId;
+        var leagueId = request.body._id;
+        model.joinLeague(trainerId, leagueId).then(function(resp){
+            response.status(200).send(resp);
+        }, function(err){
+            console.log(err);
+            response.status(400).send(err);
+        });
     });
 
     function serializeUser(user, done){

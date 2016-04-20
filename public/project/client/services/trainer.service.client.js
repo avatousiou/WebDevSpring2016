@@ -20,9 +20,11 @@
             updatePokemonForTrainer: updatePokemonForTrainer,
             deletePokemonFromTeam: deletePokemonFromTeam,
             addCommentToTeam: addCommentToTeam,
+            getComments: getComments,
             updateGymLeaderLosses: updateGymLeaderLosses,
             updateEliteFourLosses: updateEliteFourLosses,
-            getLeaguesForTrainer: getLeaguesForTrainer
+            getLeaguesForTrainer: getLeaguesForTrainer,
+            joinLeague: joinLeague
         };
 
         return service;
@@ -84,7 +86,11 @@
         }
 
         function addCommentToTeam(trainerId, comment){
-            return $http.post("/api/project/trainer/" + trainerId + "/team/comments/", comment);
+            return $http.post("/api/project/trainer/" + trainerId + "/team/comments", comment);
+        }
+
+        function getComments(trainerId){
+            return $http.get("/api/project/trainer/" + trainerId + "/team/comments");
         }
 
         function updateGymLeaderLosses(gymLeaderId, trainerId){
@@ -97,6 +103,10 @@
 
         function getLeaguesForTrainer(trainerId){
             return $http.get("/api/project/trainer/" + trainerId + "/leagues");
+        }
+
+        function joinLeague(trainerId, league){
+            return $http.put("/api/project/trainer/" + trainerId + "/leagues", league);
         }
     }
 })();
