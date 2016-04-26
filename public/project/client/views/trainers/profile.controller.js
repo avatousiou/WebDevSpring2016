@@ -17,15 +17,15 @@
         var trainerId = $routeParams.trainerId;
 
         // For Team Tab
-        $scope.newComment = {
-            user: $scope.user._id,
-            comment: ""
-        };
-
         $scope.pokemon = {};
 
         $scope.team = [];
         TrainerService.getTeam(trainerId).then(function(response){$scope.team = response.data});
+
+        $scope.newComment = {
+            user: $scope.user._id,
+            comment: ""
+        };
 
         $scope.comments = [];
         TrainerService.getComments(trainerId).then(function(response){$scope.comments = response.data});

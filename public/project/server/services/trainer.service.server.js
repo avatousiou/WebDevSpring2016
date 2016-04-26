@@ -107,7 +107,7 @@ module.exports = function(app, model){
     });
 
     app.put("/api/project/trainer/:id", auth, function(request, response){
-        var id = request.params.id
+        var id = request.params.id;
         var newTrainer = request.body;
         model.updateTrainer(id, newTrainer).then(function(resp){
             response.send(resp);
@@ -184,6 +184,7 @@ module.exports = function(app, model){
     });
 
     app.get("/api/project/trainer/:trainerId/team/comments", function(request, response){
+        console.log("BLARGH");
         var trainerId = request.params.trainerId;
         model.getAllComments(trainerId).then(function(resp){
             response.status(200).send(resp);

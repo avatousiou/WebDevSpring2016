@@ -90,6 +90,7 @@
         }
 
         function getComments(trainerId){
+            console.log(trainerId);
             return $http.get("/api/project/trainer/" + trainerId + "/team/comments");
         }
 
