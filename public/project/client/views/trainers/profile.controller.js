@@ -3,8 +3,9 @@
         .module("PokemonLeagueApp")
         .controller("ProfileController", ProfileController);
 
-    function ProfileController($scope, $rootScope, $routeParams, LeagueService, PokemonService, $location){
+    function ProfileController($scope, $rootScope, $routeParams, LeagueService, TrainerService, $location){
         $rootScope.state = "profile";
+
 
         if(!$rootScope.user){
             $location.path("/login");
@@ -19,13 +20,30 @@
         $scope.pokemon = {};
 
         $scope.team = [];
-        PokemonService.getTeam(trainerId).then(function(response){$scope.team = response.data});
+        TrainerService.getTeam(trainerId).then(function(response){$scope.team = response.data});
+
+        $scope.newComment = {
+            user: $scope.user._id,
+            comment: ""
+        };
+
+        $scope.comments = [];
+        TrainerService.getComments(trainerId).then(function(response){$scope.comments = response.data});
+
+        $scope.addComment = function(newComment){
+            TrainerService.addCommentToTeam(trainerId, newComment).then(function(){
+                TrainerService.getComments(trainerId).then(function(response){
+                    $scope.comments = response.data;
+                    $scope.newComment = {user: $scope.user._id, comment: ""};
+                });
+            });
+        };
 
         $scope.addPokemon = function(){
-            PokemonService
+            TrainerService
                 .createPokemonForTrainer(trainerId, $scope.pokemon)
                 .then(function(){
-                    PokemonService
+                    TrainerService
                         .getTeam(trainerId)
                         .then(function(response){
                             $scope.team = response.data;
@@ -35,10 +53,10 @@
         };
 
         $scope.updatePokemon = function(){
-            PokemonService
+            TrainerService
                 .updatePokemonForTrainer(trainerId, $scope.pokemon._id, $scope.pokemon)
                 .then(function(){
-                    PokemonService
+                    TrainerService
                         .getTeam(trainerId)
                         .then(function(response){
                             $scope.team = response.data;
@@ -52,10 +70,10 @@
         };
 
         $scope.removePokemon = function(pokemon){
-            PokemonService
+            TrainerService
                 .deletePokemonFromTeam(trainerId, pokemon._id)
                 .then(function(){
-                    PokemonService
+                    TrainerService
                         .getTeam(trainerId)
                         .then(function(response){
                             $scope.team = response.data;
@@ -65,6 +83,8 @@
 
         // For Badges Tab
         $scope.leagues = [];
-        LeagueService.getLeagues(trainerId).then(function(response){$scope.leagues = response.data});
+        TrainerService.getLeaguesForTrainer(trainerId).then(function(response){
+            $scope.leagues = response.data;
+        });
     }
 })();

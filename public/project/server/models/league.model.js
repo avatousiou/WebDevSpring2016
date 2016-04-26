@@ -1,19 +1,23 @@
-module.exports = function(){
-    var leagues = require("./leagues.mock.json");
-    var users = require("./trainers.mock.json");
+var Q = require('q');
+
+module.exports = function(leagueModel){
 
     var api = {
-        getLeagues: getLeagues,
-        getLeaguesForTrainer: getLeaguesForTrainer
+        getLeagues: getLeagues
     };
 
     return api;
 
     function getLeagues(){
-        return leagues;
-    }
+        var deferred = Q.defer();
 
-    function getLeaguesForTrainer(trainerId){
-        return leagues;
+        leagueModel.find(function(err, leagues){
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(leagues);
+            }
+        });
+        return deferred.promise;
     }
 };

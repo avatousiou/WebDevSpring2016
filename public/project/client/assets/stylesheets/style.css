@@ -27,3 +27,7 @@ td {
     height: 75px;
     width: 75px;
 }
+
+.btn-group>.btn{
+    position: absolute;
+}

@@ -1,9 +1,11 @@
 module.exports = function(app, model){
-    var guid = require("guid");
-
     app.get("/api/project/leagues", function(request, response){
-        var leagues = model.getLeagues();
-        response.send(leagues);
+        model.getLeagues().then(function(resp){
+            response.status(200).send(resp);
+        }, function(err){
+            console.log(err);
+            response.status(400).send(err);
+        });
     });
 
     app.get("/api/project/trainer/:trainerId/leagues", function(request, response){
