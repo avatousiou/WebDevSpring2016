@@ -11,6 +11,7 @@
             findAllTrainers: findAllTrainers,
             findTrainerByCredentials: findTrainerByCredentials,
             findTrainerByTrainername: findTrainerByTrainername,
+            getUserProfile: getUserProfile,
             createTrainer: createTrainer,
             updateTrainerById: updateTrainerById,
             deleteTrainerById: deleteTrainerById,
@@ -53,6 +54,10 @@
             return $http.get("/api/project/trainer?username=" + username);
         }
 
+        function getUserProfile(id){
+            return $http.get("/api/project/trainer/" + id);
+        }
+
         function createTrainer(user){
             return $http.post("/api/project/trainer", user);
         }
@@ -86,12 +91,11 @@
         }
 
         function addCommentToTeam(trainerId, comment){
-            return $http.post("/api/project/trainer/" + trainerId + "/team/comments", comment);
+            return $http.post("/api/project/trainer/" + trainerId + "/comments", comment);
         }
 
         function getComments(trainerId){
-            console.log(trainerId);
-            return $http.get("/api/project/trainer/" + trainerId + "/team/comments");
+            return $http.get("/api/project/trainer/" + trainerId + "/comments");
         }
 
         function updateGymLeaderLosses(gymLeaderId, trainerId){

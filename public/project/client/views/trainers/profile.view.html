@@ -7,9 +7,9 @@
                         <span class="glyphicon glyphicon-large glyphicon-user"></span>
                     </div>
                     <div class="col-sm-6 col-md-9">
-                        <p>Username: {{user.firstName}} {{user.lastName}}</p>
-                        <p>Email: {{user.email}}</p>
-                        <p>3DS Friend Code: {{user.friendCode}}</p>
+                        <p>Username: {{userProfile.firstName}} {{userProfile.lastName}}</p>
+                        <p>Email: {{userProfile.email}}</p>
+                        <p>3DS Friend Code: {{userProfile.friendCode}}</p>
                     </div>
                 </div>
                 <hr>
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <div ng-repeat="comment in comments" class="row">
-                            <h4>{{comment.user}}</h4>
+                            <h4><a href="#/profile/{{comment.user_id}}">{{comment.user}}</a></h4>
                             <p>{{comment.comment}}</p>
                             <hr>
                         </div>

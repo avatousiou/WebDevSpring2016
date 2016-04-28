@@ -172,7 +172,7 @@ module.exports = function(app, model){
         });
     });
 
-    app.post("/api/project/trainer/:trainerId/team/comments", function(request, response){
+    app.post("/api/project/trainer/:trainerId/comments", function(request, response){
         var trainerId = request.params.trainerId;
         var newComment = request.body;
         model.addCommentForTeam(trainerId, newComment).then(function(resp){
@@ -183,8 +183,7 @@ module.exports = function(app, model){
         });
     });
 
-    app.get("/api/project/trainer/:trainerId/team/comments", function(request, response){
-        console.log("BLARGH");
+    app.get("/api/project/trainer/:trainerId/comments", function(request, response){
         var trainerId = request.params.trainerId;
         model.getAllComments(trainerId).then(function(resp){
             response.status(200).send(resp);

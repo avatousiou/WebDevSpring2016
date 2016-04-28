@@ -6,7 +6,6 @@
     function ProfileController($scope, $rootScope, $routeParams, LeagueService, TrainerService, $location){
         $rootScope.state = "profile";
 
-
         if(!$rootScope.user){
             $location.path("/login");
             return;
@@ -16,6 +15,10 @@
 
         var trainerId = $routeParams.trainerId;
 
+        $scope.userProfile = {};
+        TrainerService.getUserProfile(trainerId).then(function(response){$scope.userProfile = response.data});
+        console.log($scope.userProfile);
+
         // For Team Tab
         $scope.pokemon = {};
 
@@ -23,7 +26,8 @@
         TrainerService.getTeam(trainerId).then(function(response){$scope.team = response.data});
 
         $scope.newComment = {
-            user: $scope.user._id,
+            user_id: $scope.user._id,
+            user: $scope.user.firstName + $scope.user.lastName,
             comment: ""
         };
 
@@ -34,7 +38,11 @@
             TrainerService.addCommentToTeam(trainerId, newComment).then(function(){
                 TrainerService.getComments(trainerId).then(function(response){
                     $scope.comments = response.data;
-                    $scope.newComment = {user: $scope.user._id, comment: ""};
+                    $scope.newComment = {
+                        user_id: $scope.user._id,
+                        user: $scope.user.firstName + $scope.user.lastName,
+                        comment: ""
+                    };
                 });
             });
         };

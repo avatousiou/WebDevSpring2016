@@ -50,7 +50,7 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
     function findTrainerById(trainerId){
         var deferred = Q.defer();
 
-        trainerModel.findOne({id: trainerId}, function(err, trainer){
+        trainerModel.findById(trainerId, function(err, trainer){
             if (err) {
                 deferred.reject(err);
             } else {
@@ -216,12 +216,11 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
     function getAllComments(trainerId){
         var deferred = Q.defer();
 
-        trainerModel.findOneById(trainerId, function(err, trainer){
+        trainerModel.findById(trainerId, function(err, trainer){
             console.log(trainer);
             if (err) {
                 deferred.reject(err);
             } else {
-                console.log(trainer + "hello");
                 deferred.resolve(trainer.comments);
             }
         });
