@@ -227,7 +227,6 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
         var deferred = Q.defer();
 
         trainerModel.findById(trainerId, function(err, trainer){
-            console.log(trainer);
             if (err) {
                 deferred.reject(err);
             } else {
@@ -327,7 +326,6 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
 
     function challengeGymLeader(trainerId, gymLeaderId){
         var deferred = Q.defer();
-
         gymLeaderModel.findByIdAndUpdate(gymLeaderId, {$push: {"battleRequests": trainerId}}, function(err, leader){
             if(err){
                 deferred.reject(err);
@@ -340,7 +338,7 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
 
     function getLeaderId(gymLeaderId){
         var deferred = Q.defer();
-
+console.log(gymLeaderId);
         gymLeaderModel.findOne({trainer: gymLeaderId}, function(err, leader){
             if(err){
                 deferred.reject(err);

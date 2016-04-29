@@ -13,7 +13,6 @@
         LeagueService.getAllLeagues().then(function(response){model.leagues = response.data});
 
         model.joinLeague = function(league){
-            console.log(league);
             if (!model.user){
                 $location.url("/login");
             } else {

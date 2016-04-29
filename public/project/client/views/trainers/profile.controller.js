@@ -16,13 +16,23 @@
         model.selectedTab = 'team';
 
         var trainerId = $routeParams.trainerId;
-        var gymLeaderId = "";
+        var gymLeaderId;
 
         model.userProfile = {};
-        TrainerService.getUserProfile(trainerId).then(function(response){model.userProfile = response.data});
-        if(model.userProfile.trainerType == "GymLeader"){
-            TrainerService.getGymLeaderId(model.userProfile._id).then(function(response){gymLeaderId = response.data;})
-        }
+        TrainerService.getUserProfile(trainerId)
+            .then(function(response){
+                model.userProfile = response.data
+            })
+            .then(function(){
+                if(model.userProfile.trainerType == "GymLeader"){
+                    TrainerService.getGymLeaderId(model.userProfile._id).then(function(response){
+                        console.log(response.data);
+                        gymLeaderId = response.data;
+                    })
+                }
+            }
+        );
+
 
         // For Team Tab
         model.pokemon = {
@@ -126,7 +136,6 @@
 
         model.sendRequest = function(trainerId){
             TrainerService.sendRequest(trainerId, gymLeaderId).then(function(){
-
             })
         }
 
