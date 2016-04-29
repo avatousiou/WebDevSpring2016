@@ -19,8 +19,7 @@
             })
             .when("/profile/:trainerId",{
                 templateUrl: "views/trainers/profile.view.html",
-                controller: "ProfileController",
-                controllerAs: 'model'
+                controller: "ProfileController"
             })
             .when("/profile/:trainerId/badges", {
                 templateUrl: "views/trainers/badges.view.html",

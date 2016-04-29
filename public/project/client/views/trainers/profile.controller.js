@@ -43,6 +43,8 @@
             comment: ""
         };
 
+        console.log($scope.newComment);
+
         $scope.comments = [];
         TrainerService.getComments(trainerId).then(function(response){$scope.comments = response.data});
 
