@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div ng-repeat="badge in league.gymLeaders | limitTo : 4 : 0" class="col-xs-3 gym-badge">
-                <img ng-if="badge.beatenBy.includes(model.userProfile._id)" ng-src="#/assets/images/{{badge.badgeImage}}">
+                <img ng-if="badge.beatenBy.indexOf(model.userProfile._id) !== -1" ng-src="#/assets/images/{{badge.badgeImage}}">
                 <p><a href="#/profile/{{badge.trainer}}">{{badge.badgeName}}</a></p>
             </div>
             <br>
