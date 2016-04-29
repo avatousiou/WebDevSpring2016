@@ -160,16 +160,22 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
     function updatePokemonById(trainerId, pokemonId, pokemon){
         var deferred = Q.defer();
 
-        trainerModel.find({id: trainerId}, function(err, trainer){
+        trainerModel.findById(trainerId, function(err, trainer){
             if (err) {
                 deferred.reject(err);
             } else {
                 for(var poke in trainer.pokemon){
-                    if (poke._id == pokemonId) {
-                        poke = pokemon;
+                    if (trainer.pokemon[poke]._id == pokemonId) {
+                        trainer.pokemon[poke] = pokemon;
                     }
                 }
-                deferred.resolve(trainer);
+                trainerModel.findByIdAndUpdate(trainerId, {pokemon: trainer.pokemon}, {new: true}, function(err, updatedTrainer){
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+                        deferred.resolve(trainer.pokemon);
+                    }
+                });
             }
         });
         return deferred.promise;
@@ -178,11 +184,11 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
     function deletePokemonById(trainerId, pokemonId){
         var deferred = Q.defer();
 
-        pokemonModel.findByIdAndRemove(pokemonId, function(err, poke){
+        pokemonModel.findById(pokemonId, function(err, poke){
             if (err) {
                 deferred.reject(err);
             } else {
-                trainerModel.findByIdAndUpdate(trainerId, {$pull: {"pokemon": pokemonId}}, {new: true}, function(err, updatedTrainer){
+                trainerModel.findByIdAndUpdate(trainerId, {$pull: {"pokemon": {_id: pokemonId}}}, {new: true}, function(err, updatedTrainer){
                     if (err) {
                         deferred.reject(err);
                     } else {
@@ -261,27 +267,27 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
                 deferred.reject(err);
             } else {
                 var trainerLeagues = [];
+                /*
                 trainer.leagues.forEach(function(leagueId, index){
-                    leagueModel.findOne({_id: leagueId}, function(err, league){
+                    leagueModel.findById(leagueId, function(err, league){
                         if (err) {
                             deferred.reject(err);
                         } else {
+                            console.log(league);
                             trainerLeagues[index] = league;
+                            console.log(trainerLeagues);
                         }
                     })
                 });
-                /*
+                */
                 for (var leagueId in trainer.leagues){
-                    leagueModel.findById(leagueId, function(err, league){
-                        console.log(trainer.leagues);
-                        console.log(leagueId + " Hello");
-                        if (err) {
-                            deferred.reject(err);
-                        } else {
-                            trainerLeagues.push(league);
-                        }
+                    leagueModel.findById(trainer.leagues[leagueId], function(league){
+                        console.log(league);
+                        trainerLeagues[leagueId] = league;
+                        console.log(trainerLeagues);
                     });
-                } */
+                }
+                console.log(trainerLeagues);
                 deferred.resolve(trainerLeagues);
             }
         });

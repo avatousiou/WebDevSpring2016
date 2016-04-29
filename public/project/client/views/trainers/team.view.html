@@ -12,7 +12,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr ng-if="user._id === userProfile._id">
             <td>
                 <i ng-click="addPokemon()" class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;
                 <i ng-click="updatePokemon()" class="glyphicon glyphicon-check"></i>

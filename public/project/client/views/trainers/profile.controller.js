@@ -4,11 +4,17 @@
         .controller("ProfileController", ProfileController);
 
     function ProfileController($scope, $rootScope, $routeParams, LeagueService, TrainerService, $location){
-        $rootScope.state = "profile";
 
-        if(!$rootScope.user){
-            $location.path("/login");
-            return;
+
+        $scope.user = TrainerService.getCurrentUser();
+        TrainerService.getCurrentUser().then(function(user){
+            $scope.user = user.data;
+        }, function(err){
+            console.log(err);
+        });
+
+        if(!$scope.user){
+            $location.url("/login");
         }
 
         $scope.selectedTab = 'team';
@@ -17,7 +23,6 @@
 
         $scope.userProfile = {};
         TrainerService.getUserProfile(trainerId).then(function(response){$scope.userProfile = response.data});
-        console.log($scope.userProfile);
 
         // For Team Tab
         $scope.pokemon = {};
@@ -63,13 +68,9 @@
         $scope.updatePokemon = function(){
             TrainerService
                 .updatePokemonForTrainer(trainerId, $scope.pokemon._id, $scope.pokemon)
-                .then(function(){
-                    TrainerService
-                        .getTeam(trainerId)
-                        .then(function(response){
-                            $scope.team = response.data;
-                            $scope.pokemon = {};
-                        })
+                .then(function(response){
+                    $scope.team = response.data;
+                    $scope.pokemon = {};
                 })
         };
 

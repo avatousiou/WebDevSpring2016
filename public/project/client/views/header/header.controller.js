@@ -11,6 +11,8 @@
             }, function(err){
                 $scope.error = err;
             });
-        }
+        };
+
+        $scope.user = TrainerService.getCurrentUser();
     }
 })();

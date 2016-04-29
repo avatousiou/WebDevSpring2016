@@ -8,6 +8,8 @@
             login: login,
             logout: logout,
             register: register,
+            getCurrentUser: getCurrentUser,
+            setCurrentUser: setCurrentUser,
             findAllTrainers: findAllTrainers,
             findTrainerByCredentials: findTrainerByCredentials,
             findTrainerByTrainername: findTrainerByTrainername,
@@ -40,6 +42,14 @@
 
         function register(user){
             return $http.post("/api/project/register", user);
+        }
+
+        function getCurrentUser(){
+            return $http.get("/api/project/loggedin");
+        }
+
+        function setCurrentUser(user){
+            $rootScope.currentUser = user;
         }
 
         function findAllTrainers(){
