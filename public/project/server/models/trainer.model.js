@@ -22,7 +22,9 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
         getLeaguesForTrainer: getLeaguesForTrainer,
         joinLeague: joinLeague,
         getChallengers: getChallengers,
-        awardBadgeToChallenger: awardBadgeToChallenger
+        awardBadgeToChallenger: awardBadgeToChallenger,
+        challengeGymLeader: challengeGymLeader,
+        getLeaderId: getLeaderId
     };
 
     return api;
@@ -318,6 +320,32 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
                 deferred.reject(err);
             } else {
                 deferred.resolve(leader.battleRequests);
+            }
+        });
+        return deferred.promise;
+    }
+
+    function challengeGymLeader(trainerId, gymLeaderId){
+        var deferred = Q.defer();
+
+        gymLeaderModel.findByIdAndUpdate(gymLeaderId, {$push: {"battleRequests": trainerId}}, function(err, leader){
+            if(err){
+                deferred.reject(err);
+            } else {
+                deferred.resolve(leader.battleRequests);
+            }
+        });
+        return deferred.promise;
+    }
+
+    function getLeaderId(gymLeaderId){
+        var deferred = Q.defer();
+
+        gymLeaderModel.findOne({trainer: gymLeaderId}, function(err, leader){
+            if(err){
+                deferred.reject(err);
+            } else {
+                deferred.resolve(leader._id);
             }
         });
         return deferred.promise;

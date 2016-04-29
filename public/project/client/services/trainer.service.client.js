@@ -29,7 +29,9 @@
             getLeaguesForTrainer: getLeaguesForTrainer,
             joinLeague: joinLeague,
             getRequestsForTrainer: getRequestsForTrainer,
-            awardBadge: awardBadge
+            awardBadge: awardBadge,
+            sendRequest: sendRequest,
+            getGymLeaderId: getGymLeaderId
         };
 
         return service;
@@ -132,6 +134,14 @@
 
         function awardBadge(trainerId, challengerId){
             return $http.put("/api/project/trainer/" + trainerId + "/challengers", challengerId);
+        }
+
+        function sendRequest(trainerId, gymLeaderId){
+            return $http.put("/api/project/trainer/" + trainerId + "/challenge", gymLeaderId);
+        }
+
+        function getGymLeaderId(gymLeaderId){
+            return $http.get("/api/project/gymleader/" + gymLeaderId);
         }
     }
 })();

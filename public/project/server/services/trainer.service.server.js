@@ -257,6 +257,27 @@ module.exports = function(app, model){
         })
     });
 
+    app.put("/api/project/trainer/:trainerId/challenge", function(request, response){
+        var trainerId = request.params.trainerId;
+        var gymLeaderId = request.body;
+        model.challengeGymLeader(trainerId, gymLeaderId).then(function(resp){
+            response.status(200).send(resp);
+        }, function(err){
+            console.log(err);
+            response.status(400).send(err);
+        })
+    });
+
+    app.get("/api/project/gymleader/:gymLeaderId", function(request, response){
+        var gymLeaderId = request.params.gymLeaderId;
+        model.getLeaderId(gymLeaderId).then(function(resp){
+            response.status(200).send(resp);
+        }, function(err){
+            console.log(err);
+            response.status(400).send(err);
+        })
+    });
+
     function serializeUser(user, done){
         done(null, user);
     }

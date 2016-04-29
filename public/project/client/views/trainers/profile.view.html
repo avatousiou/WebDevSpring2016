@@ -6,10 +6,15 @@
                     <div class="col-sm-6 col-md-3">
                         <span class="glyphicon glyphicon-large glyphicon-user"></span>
                     </div>
-                    <div class="col-sm-6 col-md-9">
+                    <div class="col-sm-5 col-md-8">
                         <p>Username: {{model.userProfile.firstName}} {{model.userProfile.lastName}}</p>
                         <p>Email: {{model.userProfile.email}}</p>
                         <p>3DS Friend Code: {{model.userProfile.friendCode}}</p>
+                    </div>
+                    <div ng-if="((model.user) && (model.user._id !== model.userProfile._id) && (model.userProfile.trainerType == 'GymLeader'))" class="col-sm-1 col-md-1">
+                        <div class="btn-group">
+                            <button ng-click="model.sendRequest(model.user._id)" class="btn btn-primary btn-large">Challenge</button>
+                        </div>
                     </div>
                 </div>
                 <hr>
@@ -21,7 +26,7 @@
                         <li ng-class="{active: model.selectedTab == 'badges'}" role="presentation">
                             <a ng-click="model.selectedTab = 'badges'">Badges</a>
                         </li>
-                        <li ng-if="(model.user.trainerType == ('GymLeader' || 'EliteFour')) && (model.userProfile._id === model.user._id)" ng-class="{active: model.selectedTab == 'requests'" role="presentation">
+                        <li ng-if="(model.user.trainerType == ('GymLeader' || 'EliteFour')) && (model.userProfile._id === model.user._id)" ng-class="{active: model.selectedTab == 'requests'}" role="presentation">
                             <a ng-click="model.selectedTab = 'requests'">Requests</a>
                         </li>
                     </ul>
