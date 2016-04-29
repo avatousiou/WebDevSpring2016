@@ -27,7 +27,9 @@
             updateGymLeaderLosses: updateGymLeaderLosses,
             updateEliteFourLosses: updateEliteFourLosses,
             getLeaguesForTrainer: getLeaguesForTrainer,
-            joinLeague: joinLeague
+            joinLeague: joinLeague,
+            getRequestsForTrainer: getRequestsForTrainer,
+            awardBadge: awardBadge
         };
 
         return service;
@@ -122,6 +124,14 @@
 
         function joinLeague(trainerId, league){
             return $http.put("/api/project/trainer/" + trainerId + "/leagues", league);
+        }
+
+        function getRequestsForTrainer(trainerId){
+            return $http.get("/api/project/trainer/" + trainerId + "/challengers");
+        }
+
+        function awardBadge(trainerId, challengerId){
+            return $http.put("/api/project/trainer/" + trainerId + "/challengers", challengerId);
         }
     }
 })();

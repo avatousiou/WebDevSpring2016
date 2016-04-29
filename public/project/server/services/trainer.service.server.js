@@ -236,6 +236,27 @@ module.exports = function(app, model){
         });
     });
 
+    app.get("/api/project/trainer/:trainerId/challengers", function(request, response){
+        var trainerId = request.params.trainerId;
+        model.getChallengers(trainerId).then(function(resp){
+            response.status(200).send(resp);
+        }, function(err){
+            console.log(err);
+            response.status(400).send(err);
+        })
+    });
+
+    app.put("/api/project/trainer/:trainerId/challengers", function(request, response){
+        var trainerId = request.params.trainerId;
+        var challengerId = request.body;
+        model.awardBadgeToChallenger(trainerId, challengerId).then(function(resp){
+            response.status(200).send(resp);
+        }, function(err){
+            console.log(err);
+            response.status(400).send(err);
+        })
+    });
+
     function serializeUser(user, done){
         done(null, user);
     }

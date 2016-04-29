@@ -105,5 +105,21 @@
         TrainerService.getLeaguesForTrainer(trainerId).then(function(response){
             model.leagues = response.data;
         });
+
+        // For Requests Tab
+        if(model.userProfile.trainerType == ("GymLeader" || "EliteFour")){
+            model.requests = [];
+            TrainerService.getRequestsForTrainer(trainerId).then(function(response){
+                model.requests = response.data;
+            });
+
+            model.awardBadge = function(challengerId){
+                TrainerService.awardBadge(trainerId, challengerId).then(function(){
+                    model.requests = response.data;
+                })
+            }
+        }
+
+
     }
 })();
