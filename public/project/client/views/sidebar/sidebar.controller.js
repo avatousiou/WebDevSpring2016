@@ -3,9 +3,7 @@
         .module("PokemonLeagueApp")
         .controller("SidebarController", SidebarController);
 
-    function SidebarController($rootScope, $location){
-        var model = this;
+    function SidebarController($scope){
 
-        model.user = $rootScope.user;
     }
 })();

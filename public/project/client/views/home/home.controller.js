@@ -12,9 +12,8 @@
         model.leagues = [];
         LeagueService.getAllLeagues().then(function(response){model.leagues = response.data});
 
-        console.log(model.leagues);
-
         model.joinLeague = function(league){
+            console.log(league);
             if (!model.user){
                 $location.url("/login");
             } else {

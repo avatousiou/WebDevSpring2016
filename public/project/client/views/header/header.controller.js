@@ -3,13 +3,11 @@
         .module("PokemonLeagueApp")
         .controller("HeaderController", HeaderController);
 
-    function HeaderController(TrainerService, $rootScope, $location){
+    function HeaderController($scope, TrainerService, $rootScope, $location){
         
-        var model = this;
-        
-        model.user = $rootScope.user;
-        
-        model.logout = function(){
+        $scope.user = $rootScope.user;
+
+        $scope.logout = function(){
             TrainerService.logout().then(function(response){
                 $rootScope.currentUser = null;
                 $location.url("/login");
