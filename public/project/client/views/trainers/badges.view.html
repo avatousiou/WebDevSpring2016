@@ -4,10 +4,12 @@
         <div class="row">
             <div ng-repeat="badge in league.gymLeaders | limitTo : 4 : 0" class="col-xs-3 gym-badge">
                 <img ng-src="#/assets/images/{{badge.badgeImage}}">
+                <p><a href="#/profile/{{badge.trainer}}">{{badge.badgeName}}</a></p>
             </div>
             <br>
             <div ng-repeat="badge in league.gymLeaders | limitTo : 4 : 4" class="col-xs-3 gym-badge">
                 <img ng-src="#/assets/images/{{badge.badgeImage}}">
+                <p><a href="#/profile/{{badge.traienr}}">{{badge.badgeName}}</a></p>
             </div>
             <br>
             <div ng-repeat="e in league.eliteFour" class="col-xs-3 star">
