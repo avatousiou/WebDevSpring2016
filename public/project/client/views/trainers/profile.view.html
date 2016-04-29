@@ -7,23 +7,23 @@
                         <span class="glyphicon glyphicon-large glyphicon-user"></span>
                     </div>
                     <div class="col-sm-6 col-md-9">
-                        <p>Username: {{userProfile.firstName}} {{userProfile.lastName}}</p>
-                        <p>Email: {{userProfile.email}}</p>
-                        <p>3DS Friend Code: {{userProfile.friendCode}}</p>
+                        <p>Username: {{model.userProfile.firstName}} {{model.userProfile.lastName}}</p>
+                        <p>Email: {{model.userProfile.email}}</p>
+                        <p>3DS Friend Code: {{model.userProfile.friendCode}}</p>
                     </div>
                 </div>
                 <hr>
                 <div class="row">
                     <ul class="nav nav-tabs">
-                        <li ng-class="{active: selectedTab == 'team'}" role="presentation">
-                            <a ng-click="selectedTab = 'team'">My Team</a>
+                        <li ng-class="{active: model.selectedTab == 'team'}" role="presentation">
+                            <a ng-click="model.selectedTab = 'team'">My Team</a>
                         </li>
-                        <li ng-class="{active: selectedTab == 'badges'}" role="presentation">
-                            <a ng-click="selectedTab = 'badges'">Badges</a>
+                        <li ng-class="{active: model.selectedTab == 'badges'}" role="presentation">
+                            <a ng-click="model.selectedTab = 'badges'">Badges</a>
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div ng-switch="selectedTab">
+                        <div ng-switch="model.selectedTab">
                             <div ng-switch-when='team'>
                                 <div ng-include="'views/trainers/team.view.html'"></div>
                             </div>
@@ -32,25 +32,25 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-if="selectedTab == 'team'">
+                    <div ng-if="model.selectedTab == 'team'">
                         <div class="container-fluid">
-                            <div ng-if="user._id">
+                            <div ng-if="model.user._id">
                                 <h3>Comments</h3>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <textarea ng-model="newComment.comment" class="form-control" rows="3"></textarea>
+                                            <textarea ng-model="model.newComment.comment" class="form-control" rows="3"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-sm-2 col-sm-offset-10">
                                         <div class="btn-group">
-                                            <button ng-click="addComment(newComment)" class="btn btn-primary btn-large">Submit</button>
+                                            <button ng-click="model.addComment()" class="btn btn-primary btn-large">Submit</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div ng-repeat="comment in comments" class="row">
+                            <div ng-repeat="comment in model.comments" class="row">
                                 <h4><a href="#/profile/{{comment.user_id}}">{{comment.user}}</a></h4>
                                 <p>{{comment.comment}}</p>
                                 <hr>

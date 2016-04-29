@@ -3,25 +3,19 @@
         .module("PokemonLeagueApp")
         .controller("HomeController", HomeController);
 
-    function HomeController($scope, $rootScope, $location, LeagueService, TrainerService){
+    function HomeController($rootScope, $location, LeagueService, TrainerService){
 
-        var currentUser = TrainerService.getCurrentUser();
-        TrainerService.getCurrentUser().then(function(user){
-            currentUser = user.data;
-            console.log(user.data);
-        }, function(err){
-            console.log(err);
-        });
-        $scope.user = currentUser;
-        console.log(currentUser);
-        var trainerId = currentUser._id;
-        console.log(trainerId);
-        $scope.leagues = [];
+        var model = this;
 
-        LeagueService.getAllLeagues().then(function(response){$scope.leagues = response.data});
+        model.user = $rootScope.user;
+        var trainerId = model.user._id;
+        model.leagues = [];
+        LeagueService.getAllLeagues().then(function(response){model.leagues = response.data});
 
-        $scope.joinLeague = function(league){
-            if (!$scope.user){
+        console.log(model.leagues);
+
+        model.joinLeague = function(league){
+            if (!model.user){
                 $location.url("/login");
             } else {
                 TrainerService.joinLeague(trainerId, league).then(function(response){
@@ -29,7 +23,7 @@
                     $rootScope.user = user;
                     $location.url("/profile/" + user._id);
                 }, function(err){
-                    $scope.error = err;
+                    model.error = err;
                 });
             }
         }

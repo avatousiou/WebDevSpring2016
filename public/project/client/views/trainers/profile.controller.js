@@ -3,29 +3,25 @@
         .module("PokemonLeagueApp")
         .controller("ProfileController", ProfileController);
 
-    function ProfileController($scope, $rootScope, $routeParams, LeagueService, TrainerService, $location){
+    function ProfileController($rootScope, $routeParams, TrainerService, $location){
 
+        var model = this;
 
-        $scope.user = TrainerService.getCurrentUser();
-        TrainerService.getCurrentUser().then(function(user){
-            $scope.user = user.data;
-        }, function(err){
-            console.log(err);
-        });
+        model.user = $rootScope.user;
 
-        if(!$scope.user){
+        if(!model.user){
             $location.url("/login");
         }
 
-        $scope.selectedTab = 'team';
+        model.selectedTab = 'team';
 
         var trainerId = $routeParams.trainerId;
 
-        $scope.userProfile = {};
-        TrainerService.getUserProfile(trainerId).then(function(response){$scope.userProfile = response.data});
+        model.userProfile = {};
+        TrainerService.getUserProfile(trainerId).then(function(response){model.userProfile = response.data});
 
         // For Team Tab
-        $scope.pokemon = {
+        model.pokemon = {
             pokemonName: "",
             moveset: ["", "", "", ""],
             item: "",
@@ -34,42 +30,40 @@
             EVs: [0, 0, 0, 0, 0, 0]
         };
 
-        $scope.team = [];
-        TrainerService.getTeam(trainerId).then(function(response){$scope.team = response.data});
+        model.team = [];
+        TrainerService.getTeam(trainerId).then(function(response){model.team = response.data});
 
-        $scope.newComment = {
-            user_id: $scope.user._id,
-            user: $scope.user.firstName + $scope.user.lastName,
+        model.newComment = {
+            user_id: model.user._id,
+            user: model.user.firstName + model.user.lastName,
             comment: ""
         };
 
-        console.log($scope.newComment);
+        model.comments = [];
+        TrainerService.getComments(trainerId).then(function(response){model.comments = response.data});
 
-        $scope.comments = [];
-        TrainerService.getComments(trainerId).then(function(response){$scope.comments = response.data});
-
-        $scope.addComment = function(newComment){
-            TrainerService.addCommentToTeam(trainerId, newComment).then(function(){
+        model.addComment = function(){
+            TrainerService.addCommentToTeam(trainerId, model.newComment).then(function(){
                 TrainerService.getComments(trainerId).then(function(response){
-                    $scope.comments = response.data;
-                    $scope.newComment = {
-                        user_id: $scope.user._id,
-                        user: $scope.user.firstName + $scope.user.lastName,
+                    model.comments = response.data;
+                    model.newComment = {
+                        user_id: model.user._id,
+                        user: model.user.firstName + model.user.lastName,
                         comment: ""
                     };
                 });
             });
         };
 
-        $scope.addPokemon = function(){
+        model.addPokemon = function(){
             TrainerService
-                .createPokemonForTrainer(trainerId, $scope.pokemon)
+                .createPokemonForTrainer(trainerId, model.pokemon)
                 .then(function(){
                     TrainerService
                         .getTeam(trainerId)
                         .then(function(response){
-                            $scope.team = response.data;
-                            $scope.pokemon = {
+                            model.team = response.data;
+                            model.pokemon = {
                                 pokemonName: "",
                                 moveset: ["", "", "", ""],
                                 item: "",
@@ -81,35 +75,35 @@
                 })
         };
 
-        $scope.updatePokemon = function(){
+        model.updatePokemon = function(){
             TrainerService
-                .updatePokemonForTrainer(trainerId, $scope.pokemon._id, $scope.pokemon)
+                .updatePokemonForTrainer(trainerId, model.pokemon._id, model.pokemon)
                 .then(function(response){
-                    $scope.team = response.data;
-                    $scope.pokemon = {};
+                    model.team = response.data;
+                    model.pokemon = {};
                 })
         };
 
-        $scope.editPokemon = function(pokemon){
-            $scope.pokemon = pokemon;
+        model.editPokemon = function(pokemon){
+            model.pokemon = pokemon;
         };
 
-        $scope.removePokemon = function(pokemon){
+        model.removePokemon = function(pokemon){
             TrainerService
                 .deletePokemonFromTeam(trainerId, pokemon._id)
                 .then(function(){
                     TrainerService
                         .getTeam(trainerId)
                         .then(function(response){
-                            $scope.team = response.data;
+                            model.team = response.data;
                         });
                 });
         };
 
         // For Badges Tab
-        $scope.leagues = [];
+        model.leagues = [];
         TrainerService.getLeaguesForTrainer(trainerId).then(function(response){
-            $scope.leagues = response.data;
+            model.leagues = response.data;
         });
     }
 })();
