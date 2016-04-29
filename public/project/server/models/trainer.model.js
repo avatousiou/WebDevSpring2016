@@ -311,22 +311,27 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
         return deferred.promise;
     }
 
-    function awardBadgeToChallenger(trainerId, challengerId){
+    function awardBadgeToChallenger(trainerId, challenger){
         var deferred = Q.defer();
-
-        gymLeaderModel.findByIdAndUpdate(trainerId, {$push: {"beatenBy": challengerId}, $pull: {"battleRequests": challengerId}}, {new: true}, function(err, leader){
-            if(err){
+        gymLeaderModel.findByIdAndUpdate(trainerId, {$push: {"beatenBy": challenger.trainerId}}, {new:true}, function(err, leader) {
+            if (err) {
                 deferred.reject(err);
             } else {
-                deferred.resolve(leader.battleRequests);
+                gymLeaderModel.findByIdAndUpdate(leader._id, {$pull: {"battleRequests": challenger}}, {new: true}, function (err, updatedLeader) {
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+                        deferred.resolve(updatedLeader.battleRequests);
+                    }
+                });
             }
         });
         return deferred.promise;
     }
 
-    function challengeGymLeader(trainerId, gymLeaderId){
+    function challengeGymLeader(challenger, gymLeaderId){
         var deferred = Q.defer();
-        gymLeaderModel.findByIdAndUpdate(gymLeaderId, {$push: {"battleRequests": trainerId}}, function(err, leader){
+        gymLeaderModel.findByIdAndUpdate(gymLeaderId, {$push: {"battleRequests": challenger}}, function(err, leader){
             if(err){
                 deferred.reject(err);
             } else {

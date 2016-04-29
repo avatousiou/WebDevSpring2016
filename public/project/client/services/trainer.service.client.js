@@ -132,12 +132,12 @@
             return $http.get("/api/project/trainer/" + trainerId + "/challengers");
         }
 
-        function awardBadge(trainerId, challengerId){
-            return $http.put("/api/project/trainer/" + trainerId + "/challengers", challengerId);
+        function awardBadge(trainerId, challenger){
+            return $http.put("/api/project/trainer/" + trainerId + "/challengers", challenger);
         }
 
-        function sendRequest(trainerId, gymLeaderId){
-            return $http.put("/api/project/trainer/" + trainerId + "/challenge", gymLeaderId);
+        function sendRequest(challenger, gymLeaderId){
+            return $http.put("/api/project/trainer/" + gymLeaderId + "/challenge", challenger);
         }
 
         function getGymLeaderId(gymLeaderId){

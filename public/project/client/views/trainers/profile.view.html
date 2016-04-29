@@ -13,7 +13,7 @@
                     </div>
                     <div ng-if="((model.user) && (model.user._id !== model.userProfile._id) && (model.userProfile.trainerType == 'GymLeader'))" class="col-sm-1 col-md-1">
                         <div class="btn-group">
-                            <button ng-click="model.sendRequest(model.user._id)" class="btn btn-primary btn-large">Challenge</button>
+                            <button ng-click="model.sendRequest()" class="btn btn-primary btn-large">Challenge</button>
                         </div>
                     </div>
                 </div>

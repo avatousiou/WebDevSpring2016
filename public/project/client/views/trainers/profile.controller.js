@@ -26,9 +26,20 @@
             .then(function(){
                 if(model.userProfile.trainerType == "GymLeader"){
                     TrainerService.getGymLeaderId(model.userProfile._id).then(function(response){
-                        console.log(response.data);
                         gymLeaderId = response.data;
                     })
+                }
+                if(model.userProfile.trainerType == ("GymLeader" || "EliteFour")){
+                    model.requests = [];
+                    TrainerService.getRequestsForTrainer(trainerId).then(function(response){
+                        model.requests = response.data;
+                    });
+
+                    model.awardBadge = function(challenger){
+                        TrainerService.awardBadge(gymLeaderId, challenger).then(function(response){
+                            model.requests = response.data;
+                        })
+                    }
                 }
             }
         );
@@ -120,22 +131,13 @@
             model.leagues = response.data;
         });
 
-        // For Requests Tab
-        if(model.userProfile.trainerType == ("GymLeader" || "EliteFour")){
-            model.requests = [];
-            TrainerService.getRequestsForTrainer(trainerId).then(function(response){
-                model.requests = response.data;
-            });
+        model.challenger = {
+            "trainerId": model.user._id,
+            "trainerName": model.user.firstName + model.user.lastName
+        };
 
-            model.awardBadge = function(challengerId){
-                TrainerService.awardBadge(trainerId, challengerId).then(function(){
-                    model.requests = response.data;
-                })
-            }
-        }
-
-        model.sendRequest = function(trainerId){
-            TrainerService.sendRequest(trainerId, gymLeaderId).then(function(){
+        model.sendRequest = function(){
+            TrainerService.sendRequest(model.challenger, gymLeaderId).then(function(){
             })
         }
 

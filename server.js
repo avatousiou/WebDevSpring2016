@@ -51,6 +51,7 @@ var EliteFourSchema = require('./public/project/server/models/elitefour.schema.s
 var PokemonSchema = require('./public/project/server/models/pokemon.schema.server.js')(mongoose);
 var CommentSchema = require('./public/project/server/models/comment.schema.server.js')(mongoose);
 var LeagueSchema = require('./public/project/server/models/league.schema.server.js')(mongoose);
+var RequestSchema = require('./public/project/server/models/request.schema.server.js')(mongoose);
 
 var trainer = mongoose.model('Trainer', TrainerSchema);
 var gymLeader = mongoose.model('GymLeader', GymLeaderSchema);
@@ -58,6 +59,7 @@ var eliteFour = mongoose.model('EliteFour', EliteFourSchema);
 var pokemon = mongoose.model('Pokemon', PokemonSchema);
 var comment = mongoose.model('Comment', CommentSchema);
 var league = mongoose.model('League', LeagueSchema);
+var request = mongoose.model('Request', RequestSchema);
 
 var trainerModel = require("./public/project/server/models/trainer.model.js")(trainer, pokemon, comment, gymLeader, eliteFour, league);
 require("./public/project/server/services/trainer.service.server.js")(app, trainerModel);
