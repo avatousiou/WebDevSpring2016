@@ -267,28 +267,16 @@ module.exports = function(trainerModel, pokemonModel, commentModel, gymLeaderMod
                 deferred.reject(err);
             } else {
                 var trainerLeagues = [];
-                /*
                 trainer.leagues.forEach(function(leagueId, index){
                     leagueModel.findById(leagueId, function(err, league){
                         if (err) {
                             deferred.reject(err);
                         } else {
-                            console.log(league);
                             trainerLeagues[index] = league;
-                            console.log(trainerLeagues);
+                            deferred.resolve(trainerLeagues);
                         }
                     })
                 });
-                */
-                for (var leagueId in trainer.leagues){
-                    leagueModel.findById(trainer.leagues[leagueId], function(league){
-                        console.log(league);
-                        trainerLeagues[leagueId] = league;
-                        console.log(trainerLeagues);
-                    });
-                }
-                console.log(trainerLeagues);
-                deferred.resolve(trainerLeagues);
             }
         });
         return deferred.promise;
