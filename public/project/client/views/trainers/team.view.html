@@ -67,7 +67,7 @@
             <td>{{pokemon.pokemonName}}</td>
             <td>
                 <ol>
-                    <li ng-repeat="move in pokemon.moveset">{{move}}</li>
+                    <li ng-repeat="move in pokemon.moveset track by $index">{{move}}</li>
                 </ol>
             </td>
             <td>{{pokemon.item}}</td>

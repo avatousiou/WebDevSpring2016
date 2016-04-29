@@ -3,15 +3,15 @@
     <div class="container">
         <div class="row">
             <div ng-repeat="badge in league.gymLeaders | limitTo : 4 : 0" class="col-xs-3 gym-badge">
-                <img ng-src="../assets/images/{{badge.badgeImage}}">
+                <img ng-src="#/assets/images/{{badge.badgeImage}}">
             </div>
             <br>
             <div ng-repeat="badge in league.gymLeaders | limitTo : 4 : 4" class="col-xs-3 gym-badge">
-                <img ng-src="../assets/images/{{badge.badgeImage}}">
+                <img ng-src="#/assets/images/{{badge.badgeImage}}">
             </div>
             <br>
             <div ng-repeat="e in league.eliteFour" class="col-xs-3 star">
-                <img src="../../assets/images/blackstar.png">
+                <img src="#/assets/images/blackstar.png">
             </div>
         </div>
     </div>

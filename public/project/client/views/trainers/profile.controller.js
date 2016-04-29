@@ -25,7 +25,14 @@
         TrainerService.getUserProfile(trainerId).then(function(response){$scope.userProfile = response.data});
 
         // For Team Tab
-        $scope.pokemon = {};
+        $scope.pokemon = {
+            pokemonName: "",
+            moveset: ["", "", "", ""],
+            item: "",
+            ability: "",
+            nature: "",
+            EVs: [0, 0, 0, 0, 0, 0]
+        };
 
         $scope.team = [];
         TrainerService.getTeam(trainerId).then(function(response){$scope.team = response.data});
@@ -60,7 +67,14 @@
                         .getTeam(trainerId)
                         .then(function(response){
                             $scope.team = response.data;
-                            $scope.pokemon = {};
+                            $scope.pokemon = {
+                                pokemonName: "",
+                                moveset: ["", "", "", ""],
+                                item: "",
+                                ability: "",
+                                nature: "",
+                                EVs: [0, 0, 0, 0, 0, 0]
+                            };
                         })
                 })
         };
