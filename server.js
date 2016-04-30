@@ -37,10 +37,18 @@ app.use(express.static(__dirname + '/public'));
 
 
 // For assignments
-var userModel = require("./public/assignment/server/models/user.model.js")();
+var userSchema = require('./public/assignment/server/models/user.schema.server.js')(mongoose);
+var formSchema = require('./public/assignment/server/models/form.schema.server.js')(mongoose);
+var fieldSchema = require('./public/assignment/server/models/field.schema.server.js')(mongoose);
+
+var user = mongoose.model('User', userSchema);
+var form = mongoose.model('Form', formSchema);
+var field = mongoose.model('Field', fieldSchema);
+
+var userModel = require("./public/assignment/server/models/user.model.js")(user);
 require("./public/assignment/server/services/user.service.server.js")(app, userModel);
 
-var formModel = require("./public/assignment/server/models/form.model.js")();
+var formModel = require("./public/assignment/server/models/form.model.js")(form, field);
 require("./public/assignment/server/services/form.service.server.js")(app, formModel);
 require("./public/assignment/server/services/field.service.server.js")(app, formModel);
 

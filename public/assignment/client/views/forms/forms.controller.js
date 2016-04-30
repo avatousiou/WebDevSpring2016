@@ -3,64 +3,62 @@
         .module("FormBuilderApp")
         .controller("FormController", FormController);
 
-    function FormController($scope, $rootScope, FormService, $location){
-        $rootScope.state = "forms";
+    function FormController($rootScope, FormService, $location){
 
-        if(!$rootScope.user){
-            $location.path("/login");
-            return;
-        }
+        var model = this;
 
-        $scope.forms = [];
+        model.user = $rootScope.user;
+
+        model.forms = [];
 
         FormService
             .findAllFormsForUser($rootScope.user._id)
             .then(function(response){
-                $scope.forms = response.data;
+                model.forms = response.data;
             });
 
-        $scope.form = {};
+        model.form = {};
 
-        $scope.addForm = function(){
+        model.addForm = function(){
             FormService
-                .createFormForUser($rootScope.user._id, $scope.form)
+                .createFormForUser($rootScope.user._id, model.form)
                 .then(function(){
                     FormService
                         .findAllFormsForUser($rootScope.user._id)
                         .then(function(response){
-                            $scope.forms = response.data;
-                            $scope.form = {};
+                            model.forms = response.data;
+                            model.form = {};
                         });
                 });
         };
 
-        $scope.updateForm = function(){
+        model.updateForm = function(){
             FormService
-                .updateFormById($scope.form._id, $scope.form)
+                .updateFormById(model.form._id, model.form)
                 .then(function(){
                     FormService
                         .findAllFormsForUser($rootScope.user._id)
                         .then(function(response){
-                            $scope.forms = response.data;
-                            $scope.form = {};
+                            model.forms = response.data;
+                            model.form = {};
                         });
                 });
         };
 
-        $scope.deleteForm = function(form){
+        model.deleteForm = function(form){
             FormService
                 .deleteFormById(form._id)
                 .then(function(){
                     FormService
                         .findAllFormsForUser($rootScope.user._id)
                         .then(function(response){
-                            $scope.forms = response.data;
+                            model.forms = response.data;
                         });
                 });
         };
 
-        $scope.selectForm = function(form){
-            $scope.form = form;
+        model.selectForm = function(form){
+            model.form = form;
         }
 
     }

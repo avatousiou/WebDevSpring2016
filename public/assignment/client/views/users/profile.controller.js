@@ -3,31 +3,27 @@
         .module("FormBuilderApp")
         .controller("ProfileController", ProfileController);
 
-    function ProfileController($scope, $rootScope, UserService, $location){
-        $rootScope.state = "profile";
+    function ProfileController($rootScope, UserService, $location){
+        var model = this;
 
-        if(!$rootScope.user){
-            $location.path("/login");
-            return;
-        }
+        var userId = $rootScope.user._id;
 
-        $scope.form = {
-            firstName: $rootScope.user.firstName,
-            lastName: $rootScope.user.lastName,
-            username: $rootScope.user.username,
-            password: $rootScope.user.password
-        };
+        model.firstName = $rootScope.user.firstName;
+        model.lastName = $rootScope.user.lastName;
+        model.username = $rootScope.user.username;
+        model.password = $rootScope.user.password;
 
-        $scope.update = function(){
-            UserService
-                .updateUserById($rootScope.user._id, $scope.form)
-                .then(function(response){
-                    $rootScope.user = response.data;
-                    $scope.form.firstName = $rootScope.user.firstName;
-                    $scope.form.lastName = $rootScope.user.lastName;
-                    $scope.form.username = $rootScope.user.username;
-                    $scope.form.password = $rootScope.user.password;
-                })
+        model.update = function(){
+            var updatedUser = {
+                _id: userId,
+                username: model.username,
+                password: model.password,
+                firstName: model.firstName,
+                lastName: model.lastName
+            };
+            UserService.updateUserById(userId, updatedUser).then(function(user){
+                $rootScope.user = user;
+            })
         }
     }
 })();

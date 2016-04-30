@@ -3,24 +3,21 @@
         .module("FormBuilderApp")
         .controller("FieldsController", FieldsController);
 
-    function FieldsController($scope, $rootScope, FieldService, $routeParams, $location, $uibModal){
-
-        if(!$rootScope.user){
-            $location.path("/login");
-        }
-
+    function FieldsController($rootScope, $routeParams, FieldService, FormService){
+        
+        var model = this;
         var formId = $routeParams.formId;
 
         FieldService
             .getFieldsForForm(formId)
             .then(function(response){
-                $scope.fields = response.data;
+                model.fields = response.data;
             });
 
-        $scope.fieldType = "TEXT";
+        model.fieldType = "TEXT";
 
-        $scope.addField = function(){
-            if($scope.fieldType == "TEXT"){
+        model.addField = function(){
+            if(model.fieldType == "TEXT"){
                 var form = {
                     _id: null,
                     label: "New Text Field",
@@ -28,7 +25,7 @@
                     placeholder: "New Field"
                 }
             }
-            if($scope.fieldType == "TEXTAREA"){
+            if(model.fieldType == "TEXTAREA"){
                 var form = {
                     _id: null,
                     label: "New Text Field",
@@ -36,14 +33,14 @@
                     placeholder: "New Field"
                 }
             }
-            if($scope.fieldType == "DATE"){
+            if(model.fieldType == "DATE"){
                 var form = {
                     _id: null,
                     label: "New Date Field",
                     type: "DATE"
                 }
             }
-            if($scope.fieldType == "OPTIONS"){
+            if(model.fieldType == "OPTIONS"){
                 var form = {
                     _id: null,
                     label: "New Dropdown",
@@ -55,7 +52,7 @@
                     ]
                 }
             }
-            if($scope.fieldType == "CHECKBOXES"){
+            if(model.fieldType == "CHECKBOXES"){
                 var form = {
                     _id: null,
                     label: "New Checkboxes",
@@ -67,7 +64,7 @@
                     ]
                 }
             }
-            if($scope.fieldType == "RADIOS"){
+            if(model.fieldType == "RADIOS"){
                 var form = {
                     _id: null,
                     label: "New Radio Buttons",
@@ -86,47 +83,62 @@
                     FieldService
                         .getFieldsForForm(formId)
                         .then(function(response){
-                            $scope.fields = response.data;
+                            model.fields = response.data;
                         });
                 });
         };
 
-        $scope.openEditModal = function(field){
-            var modalInstance = $uibModal.open({
-                animation: $scope.animationsEnabled,
-                templateUrl: "views/forms/modals/editFieldModal.view.html",
-                controller: "EditFieldModalController",
-                size: "lg",
-                resolve: {
-                    field: function(){
-                        return field;
-                    }
+        model.editField = function(field){
+            model.field = field;
+            var options = [];
+            if(model.field.type == ("OPTIONS" || "CHECKBOXES" || "RADIOS")){
+                for(var i in field.options){
+                    var opt = field.options[i].label + ":" + field.options[i].value;
+                    options.push(opt);
                 }
-            });
-
-            modalInstance.result.then(function(updatedField){
-                FieldService
-                    .updateFieldForForm(formId, updatedField._id, updatedField)
-                    .then(function(){
-                        FieldService
-                            .getFieldsForForm(formId)
-                            .then(function(response){
-                                $scope.fields = response.data;
-                            });
-                    });
-            });
+            }
+            model.field.optText = options.join("\n");
         };
 
-        $scope.removeField = function(field){
+        model.updateField = function(field){
+            var options = [];
+            if(model.field.type == ("OPTIONS" || "CHECKBOXES" || "RADIOS")){
+                var text = model.field.optText.split("\n");
+                for(var i in text){
+                    var j = text[i].split(":");
+                    options.push({label: a[0], value: a[1]})
+                }
+                field.options = options;
+            }
+            FieldService.updateFieldForForm(formId, field._id, field).then(function(){
+                FieldService.getFieldsForForm(formId).then(function(response) {
+                    model.fields = response.data;
+                });
+            })
+        };
+
+        model.removeField = function(field){
             FieldService
                 .deleteFieldFromForm(formId, field._id)
                 .then(function(){
                     FieldService
                         .getFieldsForForm(formId)
                         .then(function(response){
-                            $scope.fields = response.data;
+                            model.fields = response.data;
                         });
                 });
+        };
+
+        model.copyField = function(index){
+            var newField = {
+                label: model.fields[index].label,
+                type: model.fields[index].type,
+                placeholder: model.fields[index].type,
+                options: model.fields[index].options
+            };
+            FieldService.createFieldForForm(formId, newField).then(function(){
+                FieldService.getFieldsForForm(formId).then(function(response){model.fields = response.data})
+            })
         };
 
 

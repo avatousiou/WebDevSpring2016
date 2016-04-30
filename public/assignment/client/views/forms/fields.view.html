@@ -1,15 +1,15 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Forms : Form Fields</h1>
+            <h1 class="page-header">Forms : {{model.form.title}}</h1>
 
             <ul class="nav nav-tabs">
-                <li role="presentation"><a href="#/forms">Forms</a></li>
-                <li role="presentation" class="active"><a>Fields</a></li>
+                <li ng-class="{'active': $location.url() == '/forms'}" role="presentation"><a href="#/forms">Forms</a></li>
+                <li ng-class="{'active': $location.url() == '/fields'}" role="presentation" class="active"><a href="#/fields">Fields</a></li>
             </ul>
             <br>
-            <form class="clearfix">
-                <div ng-repeat="field in fields">
+            <form ng-model="model.fields" ui-sortable="model.fields" class="clearfix">
+                <div ng-repeat="field in model.fields">
                     <div ng-switch="{{field.type}}">
                         <div ng-switch-when="TEXT" class="form-group col-md-9">
                             <label>{{field.label}}</label>
@@ -48,27 +48,76 @@
                             </div>
                         </div>
                     </div>
+                    <span class="input-group-btn">
+                        <button ng-click="model.editField(field)" class="btn btn-primary" type="button" data-toggle="modal" data-target="#modal">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                        <button ng-click="model.copyField($index)" class="btn btn-primary" type="button" data-toggle="modal" data-target="#modal">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                        <button ng-click="model.removeField(field)" class="btn btn-primary" type="button" data-toggle="modal" data-target="#modal">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <button class="btn btn-primary" type="button">
+                            <span class="glyphicon glyphicon-align-justify"></span>
+                        </button>
+                    </span>
+                </div>
+                <hr>
+                <div>
+                    <div class="form-group col-md-9">
+                        <label>Add New Field:</label>
+                        <select ng-model="model.fieldType" class="form-control">
+                            <option value="TEXT">Single Line Text</option>
+                            <option value="TEXTAREA">Multi Line Text Field</option>
+                            <option value="DATE">Date Field</option>
+                            <option value="OPTIONS">Dropdown Field</option>
+                            <option value="CHECKBOXES">Checkboxes Field</option>
+                            <option value="RADIOS">Radio Buttons Field</option>
+                        </select>
+                    </div>
                     <div class="icons col-md-3">
-                        <i ng-click="openEditModal(field)" class="glyphicon glyphicon-pencil"></i>
-                        <i ng-click="removeField(field)" class="glyphicon glyphicon-remove"></i>
+                        <span class="input-group-btn">
+                            <button ng-click="model.addField()" class="btn btn-primary" type="button">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </span>
                     </div>
                 </div>
             </form>
-            <hr>
-            <div>
-                <div class="form-group col-md-9">
-                    <label>Add New Field:</label>
-                    <select ng-model="fieldType" class="form-control">
-                        <option value="TEXT">Single Line Text</option>
-                        <option value="TEXTAREA">Multi Line Text Field</option>
-                        <option value="DATE">Date Field</option>
-                        <option value="OPTIONS">Dropdown Field</option>
-                        <option value="CHECKBOXES">Checkboxes Field</option>
-                        <option value="RADIOS">Radio Buttons Field</option>
-                    </select>
-                </div>
-                <div class="icons col-md-3">
-                    <i ng-click="addField()" class="glyphicon glyphicon-plus"></i>
+
+            <div class="modal fade" id="modal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button data-dismiss="modal" class="close" type="button">&times;</button>
+                            <h3 class="modal-title">{{model.field.label}}</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <label for="label">Label:</label>
+                                <input ng-model="model.field.label" type="text" class="form-control" id="label" placeholder="label">
+                                <br>
+                            </div>
+                            <div ng-show="model.field.placeholder">
+                                <label for="placeholder">Placeholder:</label>
+                                <input ng-model="model.field.placeholder" type="{{model.field.type}}" class="form-control" id="placeholder" placeholder="placeholder">
+                                <br>
+                            </div>
+                            <div ng-show="model.field.optText">
+                                <label for="option">Options:</label>
+                                <textarea ng-model="model.field.optText" cols="50" rows="4" class="form-control" id="option"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button ng-click="model.updateField(model.field)" class="btn btn-primary" type="button" data-dismiss="modal">
+                                OK
+                            </button>
+                            <button class="btn btn-primary" type="button" data-dismiss="modal">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

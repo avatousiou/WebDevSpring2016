@@ -4,4 +4,4 @@ module.exports = function(app, db){
 
     var trainerService  = require("./services/trainer.service.server.js")(app,trainerModel);
     var leagueService   = require("./services/league.service.server.js")(app, leagueModel);
-}
+};
